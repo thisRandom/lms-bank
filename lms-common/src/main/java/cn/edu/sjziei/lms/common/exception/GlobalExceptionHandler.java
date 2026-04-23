@@ -1,8 +1,10 @@
 package cn.edu.sjziei.lms.common.exception;
 
 import cn.edu.sjziei.lms.common.result.Result;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
  * 全局异常处理器
@@ -57,13 +59,13 @@ public class GlobalExceptionHandler {
      * }
      */
     @ExceptionHandler(BusinessException.class)
-    public Result<?> handleBusinessException(BusinessException e) {
+    public Result handleBusinessException(BusinessException e) {
         // 打印日志便于排查（生产环境可改为logger.warn）
         System.out.println("业务异常：" + e.getMessage());
 
         // 返回错误结果，使用异常中的code和message
         // e.getCode()默认是400，可以在抛出时指定其他值
-        return Result.error(e.getCode(), e.getMessage());
+        return Result.error(400,e.getCode()+e.getMessage());
     }
 
     /**
@@ -94,13 +96,13 @@ public class GlobalExceptionHandler {
      * }
      */
     @ExceptionHandler(Exception.class)
-    public Result<?> handleException(Exception e) {
+    public Result handleException(Exception e) {
         // 打印异常堆栈信息（生产环境应使用logger.error）
         e.printStackTrace();
 
         // 返回通用的服务器内部错误
         // 不返回具体的异常信息，避免泄露系统内部细节
-        return Result.error(500, "服务器内部错误");
+        return Result.error( 500,"服务器内部错误");
     }
 
     // ==================== 可扩展的其他异常处理方法 ====================
@@ -121,11 +123,11 @@ public class GlobalExceptionHandler {
      * @param e 异常实例
      * @return 错误响应
      */
-    // @ExceptionHandler(MethodArgumentNotValidException.class)
-    // public Result<?> handleValidException(MethodArgumentNotValidException e) {
-    //     String message = e.getBindingResult().getFieldError().getDefaultMessage();
-    //     return Result.error(400, message);
-    // }
+     @ExceptionHandler(MethodArgumentNotValidException.class)
+     public Result handleValidException(MethodArgumentNotValidException e) {
+         String message = e.getBindingResult().getFieldError().getDefaultMessage();
+         return Result.error(400, message);
+     }
 
     /**
      * 处理找不到资源的异常（扩展用）
@@ -144,8 +146,8 @@ public class GlobalExceptionHandler {
      * @param e 异常实例
      * @return 错误响应
      */
-    // @ExceptionHandler(NoHandlerFoundException.class)
-    // public Result<?> handleNotFoundException(NoHandlerFoundException e) {
-    //     return Result.error(404, "接口不存在");
-    // }
+     @ExceptionHandler(NoHandlerFoundException.class)
+     public Result handleNotFoundException(NoHandlerFoundException e) {
+         return Result.error( 404,"接口不存在");
+     }
 }
