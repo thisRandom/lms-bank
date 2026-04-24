@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>cn.edu.sjziei</groupId>
-            <artifactId>lms-user</artifactId>
+            <artifactId>lms-auth</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.edu.sjziei</groupId>

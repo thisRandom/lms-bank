@@ -27,6 +27,7 @@
         <mybatis-spring-boot.version>3.0.5</mybatis-spring-boot.version>
         <mysql.version>8.0.33</mysql.version>
         <lombok.version>1.18.30</lombok.version>
+        <SpringBoot.version>3.5.13</SpringBoot.version>
     </properties>
 
     <dependencyManagement>
@@ -35,7 +36,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>3.5.13</version>
+                <version>${SpringBoot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -69,7 +70,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.edu.sjziei</groupId>
-                <artifactId>lms-user</artifactId>
+                <artifactId>lms-auth</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
