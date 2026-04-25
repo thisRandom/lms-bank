@@ -1,4 +1,4 @@
-package cn.edu.sjziei.lms.dto;
+package cn.edu.sjziei.lms.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginDto {
-    String username;
-    String password;
+public class PasswordDto {
+    String oldPassword;
+    String newPassword;
 }

@@ -1,11 +1,11 @@
 package cn.edu.sjziei.lms.controller;
 
+import cn.edu.sjziei.lms.common.annotation.RequiresPermissions;
 import cn.edu.sjziei.lms.common.result.Result;
-import cn.edu.sjziei.lms.dto.LoginDto;
-import cn.edu.sjziei.lms.dto.PasswordDto;
-import cn.edu.sjziei.lms.entity.User;
+import cn.edu.sjziei.lms.common.dto.LoginDto;
+import cn.edu.sjziei.lms.common.dto.PasswordDto;
 import cn.edu.sjziei.lms.service.AuthService;
-import cn.edu.sjziei.lms.util.tokenUtil;
+import cn.edu.sjziei.lms.common.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +18,7 @@ public class AuthController {
     @Autowired
     AuthService authService;
     @Autowired
-    private tokenUtil tokenUtil;
+    private TokenUtil tokenUtil;
 
     /**
      * 登录接口
@@ -33,6 +33,7 @@ public class AuthController {
      * 登出接口
      * */
     @PostMapping("/logout")
+    @RequiresPermissions({"admin","user"})
     public Result logout(@RequestHeader("Authorization") String token){
         return authService.logout(token);
     }
@@ -49,6 +50,7 @@ public class AuthController {
      * 修改密码
      * */
     @PutMapping("/password")
+    @RequiresPermissions({"admin", "user:update"})
     public Result password(@RequestBody PasswordDto passwordDto, @RequestHeader("Authorization") String token){
         return authService.password(token,passwordDto);
     }

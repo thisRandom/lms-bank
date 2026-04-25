@@ -2,7 +2,7 @@ package cn.edu.sjziei.lms;
 
 import cn.edu.sjziei.lms.entity.User;
 import cn.edu.sjziei.lms.mapper.UserMapper;
-import cn.edu.sjziei.lms.util.loginUtil;
+import cn.edu.sjziei.lms.util.LoginUtil;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ public class MapperTest {
     @Autowired
     public UserMapper userMapper;
     @Autowired
-    loginUtil loginUtil;
+    LoginUtil loginUtil;
     @Test
     public void MapperTest1(){
         User user=new User();
@@ -31,7 +31,7 @@ public class MapperTest {
         SymmetricCrypto crypto = new SymmetricCrypto(SymmetricAlgorithm.AES, key.getBytes());
 
         // 加密 "123456"
-        String encryptHex = crypto.encryptHex("987654321!Qyy");
+        String encryptHex = crypto.encryptHex("123456Abc");
         System.out.println(loginUtil.ePToPassword(encryptHex));
         System.out.println("生成的密文(ep)为: " + encryptHex);
     }

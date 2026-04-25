@@ -71,8 +71,8 @@ public class jwtTest {
                 .setSigner(signer)
                 .sign();
 
-        Thread.sleep(3000);
-        System.out.println(JWTUtil.verify(token, signer));
+        //Thread.sleep(3000);
+        System.out.println(JWTUtil.verify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzcxMDI0NDMsInVzZXIiOnsiaWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJyZWFsTmFtZSI6Iuezu-e7n-euoeeQhuWRmCIsInJvbGUiOiJBRE1JTiIsInJvbGVJZCI6MX0sInZhbHVlIjoiNWUwYzQxZTctNzdjMy00Zjg0LTlmNGUtMDYzMTIzMTUzNmJjIn0.PS9eas-WLNAWp-HOOZ7zNOG0ltRHB85CTKJ0wPmElgI", signer));
         System.out.println(JWTValidator.of(token).validateDate());
     }
 
@@ -81,15 +81,15 @@ public class jwtTest {
         //设置token
         final String token = JWT.create()
                 .setKey("123456".getBytes())
-                .setExpiresAt(new Date(System.currentTimeMillis()+1000*10))
+                .setExpiresAt(new Date(System.currentTimeMillis()+1000*5))
                 .setPayload("user","user1")
                 .sign();
-//        Thread.sleep(1000*11);
+        Thread.sleep(1000*6);
         //验证token有没有过期
-        JWTValidator.of(token).validateDate();
+        System.out.println(JWTValidator.of(token).validateDate());
 
-        JWT jwt= JWT.of(token);
-        System.out.println(jwt.getPayload("user"));
+//        JWT jwt= JWT.of(token);
+//        System.out.println(jwt.getPayload("user"));
     }
     @Test
     public void Test6(){

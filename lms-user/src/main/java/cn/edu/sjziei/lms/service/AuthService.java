@@ -1,9 +1,8 @@
 package cn.edu.sjziei.lms.service;
 
 import cn.edu.sjziei.lms.common.result.Result;
-import cn.edu.sjziei.lms.dto.LoginDto;
-import cn.edu.sjziei.lms.dto.PasswordDto;
-import cn.edu.sjziei.lms.entity.User;
+import cn.edu.sjziei.lms.common.dto.LoginDto;
+import cn.edu.sjziei.lms.common.dto.PasswordDto;
 import org.springframework.stereotype.Service;
 
 @Service

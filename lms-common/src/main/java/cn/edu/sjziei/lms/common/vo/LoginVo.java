@@ -1,4 +1,4 @@
-package cn.edu.sjziei.lms.vo;
+package cn.edu.sjziei.lms.common.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,12 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CurrentVo {
+public class LoginVo {
     Integer id;
     String username; //用户名
     String realName; //真实姓名
-    String phone; //手机号
-    String role;//角色
+    String role; //角色
     Long roleId; //角色ID
-    Integer status; //状态
 }

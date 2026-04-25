@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class loginUtil {
+public class LoginUtil {
     // 16位密钥，前后端必须一致
     @Value("${secret-key.ePassword}")
     String secretKey;
