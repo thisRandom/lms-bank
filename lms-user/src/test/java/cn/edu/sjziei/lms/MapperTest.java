@@ -31,7 +31,7 @@ public class MapperTest {
         SymmetricCrypto crypto = new SymmetricCrypto(SymmetricAlgorithm.AES, key.getBytes());
 
         // 加密 "123456"
-        String encryptHex = crypto.encryptHex("123456789!Qyy");
+        String encryptHex = crypto.encryptHex("987654321!Qyy");
         System.out.println(loginUtil.ePToPassword(encryptHex));
         System.out.println("生成的密文(ep)为: " + encryptHex);
     }

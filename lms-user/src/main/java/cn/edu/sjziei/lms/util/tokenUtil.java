@@ -17,17 +17,18 @@ public class tokenUtil {
     /**
      * 登录时得到token
      * */
-    public String getToken(long timeMillis, LoginVo loginVo){
+    public String getToken(long timeMillis, LoginVo loginVo,String value){
         String token = JWT.create()
                 .setKey(secretKey.getBytes())
                 .setExpiresAt(new Date(timeMillis))
                 .setPayload("user",loginVo)
+                .setPayload("value",value)
                 .sign();
         return token;
     }
 
     /**
-     * 解析token
+     * 解析token中的loginVo类
     * */
     public LoginVo analysisToken(String token){
         JWT jwt=null;

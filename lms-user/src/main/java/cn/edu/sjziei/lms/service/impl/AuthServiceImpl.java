@@ -54,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
 
         //获取token
         long timeMillis = System.currentTimeMillis()+ + 1000 * 60 * 60 * 2;
-        String token=tokenUtil.getToken(timeMillis,loginVo);
+        String token=tokenUtil.getToken(timeMillis,loginVo,value);
 
         //返回的数据
         Map<String,Object> map=new HashMap<>();
@@ -111,9 +111,8 @@ public class AuthServiceImpl implements AuthService {
         }
 
         //存入数据库
-        User user=userMapper.idToUser(loginVo);
-        user.setPassword(passwordDto.getNewPassword());
-        userMapper.updateUser(user);
+        loginDto.setPassword(passwordDto.getNewPassword());
+        userMapper.updateUser(loginDto);
 
         return Result.success(200);
     }
