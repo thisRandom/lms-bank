@@ -33,7 +33,6 @@ public class AuthController {
      * 登出接口
      * */
     @PostMapping("/logout")
-    @RequiresPermissions({"admin","user"})
     public Result logout(@RequestHeader("Authorization") String token){
         return authService.logout(token);
     }
@@ -50,7 +49,6 @@ public class AuthController {
      * 修改密码
      * */
     @PutMapping("/password")
-    @RequiresPermissions({"admin", "user:update"})
     public Result password(@RequestBody PasswordDto passwordDto, @RequestHeader("Authorization") String token){
         return authService.password(token,passwordDto);
     }

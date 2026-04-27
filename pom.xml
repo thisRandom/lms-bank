@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.edu.sjziei</groupId>
-    <artifactId>lms</artifactId>
+    <artifactId>lms_bank</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Logistics Management System</name>
@@ -12,6 +12,7 @@
 
     <modules>
         <module>lms-common</module>
+        <module>lms-auth</module>
         <module>lms-user</module>
         <module>lms-vehicle</module>
         <module>lms-order</module>
@@ -28,6 +29,7 @@
         <mysql.version>8.0.33</mysql.version>
         <lombok.version>1.18.30</lombok.version>
         <SpringBoot.version>3.5.13</SpringBoot.version>
+        <pageHelper.version>2.1.0</pageHelper.version>
     </properties>
 
     <dependencyManagement>
@@ -62,6 +64,13 @@
                 <version>${lombok.version}</version>
             </dependency>
 
+            <!--PageHelper-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pageHelper.version}</version>
+            </dependency>
+
             <!-- 子模块 -->
             <dependency>
                 <groupId>cn.edu.sjziei</groupId>
@@ -86,6 +95,11 @@
             <dependency>
                 <groupId>cn.edu.sjziei</groupId>
                 <artifactId>lms-dispatch</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.edu.sjziei</groupId>
+                <artifactId>lms-user</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

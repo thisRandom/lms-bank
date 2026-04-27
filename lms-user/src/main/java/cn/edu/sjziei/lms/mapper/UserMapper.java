@@ -1,26 +1,44 @@
 package cn.edu.sjziei.lms.mapper;
 
-import cn.edu.sjziei.lms.common.dto.LoginDto;
-import cn.edu.sjziei.lms.entity.User;
-import cn.edu.sjziei.lms.common.vo.CurrentVo;
-import cn.edu.sjziei.lms.common.vo.LoginVo;
+import cn.edu.sjziei.lms.dto.AddUserDto;
+import cn.edu.sjziei.lms.dto.GetListUsersDto;
+import cn.edu.sjziei.lms.vo.RecordVo;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    @Select("SELECT user.id,user.username, user.real_name, user.role_id,role.role_code role FROM `sys_user` user,`sys_role` role where username=#{username} and password=#{password} and user.role_id=role.id")
-    public LoginVo login(LoginDto loginDto);
-    @Update("UPDATE `sys_user` SET  password=#{password} WHERE username=#{username}")
-    public void updateUser(LoginDto loginDto);
-    @Select("SELECT user.id,user.username, user.real_name, user.role_id,role.role_code role,user.status,user.phone FROM `sys_user` user,`sys_role` role where username=#{username} and user.role_id=role.id")
-    public CurrentVo current(LoginVo loginVo);
-    @Select("SELECT password from `sys_user`where username=#{username}")
-    public String UnToPw(String username);
-    /**
-     * 用于查看一个用户全部的信息
-     * */
-    @Select("select *from `sys_user`where id=#{id}")
-    public User idToUser(LoginVo loginVo);
+    @Select("<script>" +
+            "SELECT u.id, u.username, u.real_name, u.phone, u.role_id, r.role_name, u.status, u.create_time " +
+            "FROM sys_user u " +
+            "LEFT JOIN sys_role r ON u.role_id = r.id " + // 改为左连接
+            "<where> " +
+            "  <if test='realName != null and realName != \"\" '> " +
+            "    AND u.real_name LIKE CONCAT('%', #{realName}, '%') " +
+            "  </if> " +
+            "  <if test='roleId != null'> " +
+            "    AND u.role_id = #{roleId} " +
+            "  </if> " +
+            "  <if test='status != null'> " +
+            "    AND u.status = #{status} " +
+            "  </if> " +
+            "  <if test='bool == true'> " +
+            "    AND r.role_code = \"DRIVER\" " +
+            "  </if> " +
+            "</where> " +
+            "ORDER BY u.create_time DESC" +
+            "</script>")
+    public List<RecordVo> getListUsers(GetListUsersDto getListUsersDto);
+
+    @Select("SELECT COUNT(*) FROM sys_user WHERE username =#{username}")
+    public Integer onlyUsername(String username);
+
+    @Insert("INSERT INTO sys_user(username, password, real_name, phone, role_id, status, create_time, update_time) " +
+            "VALUES(#{username}, #{password}, #{realName}, #{phone}, #{roleId}, #{status}, NOW(), NOW())")
+    public void addUser(AddUserDto addUserDto);
+    @Select("SELECT id FROM sys_user WHERE username =#{username}")
+    public Integer unToId(String username);
 }

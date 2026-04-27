@@ -5,7 +5,7 @@
 
     <parent>
         <groupId>cn.edu.sjziei</groupId>
-        <artifactId>lms</artifactId>
+        <artifactId>lms_bank</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 

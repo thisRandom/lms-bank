@@ -4,10 +4,10 @@ import cn.edu.sjziei.lms.common.result.Result;
 import cn.edu.sjziei.lms.common.util.RedisUtil;
 import cn.edu.sjziei.lms.common.dto.LoginDto;
 import cn.edu.sjziei.lms.common.dto.PasswordDto;
-import cn.edu.sjziei.lms.mapper.UserMapper;
+import cn.edu.sjziei.lms.mapper.AuthMapper;
 import cn.edu.sjziei.lms.service.AuthService;
-import cn.edu.sjziei.lms.util.LoginUtil;
-import cn.edu.sjziei.lms.util.PasswordUtil;
+import cn.edu.sjziei.lms.common.util.LoginUtil;
+import cn.edu.sjziei.lms.common.util.PasswordUtil;
 import cn.edu.sjziei.lms.common.util.TokenUtil;
 import cn.edu.sjziei.lms.common.vo.CurrentVo;
 import cn.edu.sjziei.lms.common.vo.LoginVo;
@@ -24,7 +24,7 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     LoginUtil loginUtil;
     @Autowired
-    UserMapper userMapper;
+    AuthMapper authMapper;
     @Autowired
     RedisUtil redisUtil;
     @Autowired
@@ -41,14 +41,14 @@ public class AuthServiceImpl implements AuthService {
         }
 
         //验证密码
-        String hashpw = userMapper.UnToPw(loginDto.getUsername());
+        String hashpw = authMapper.UnToPw(loginDto.getUsername());
         if (hashpw == null || !passwordUtil.verificationPassword(loginDto.getPassword(), hashpw)) {
             return Result.error(200, "用户名或密码错误");
         }
 
         //得到数据
         loginDto.setPassword(hashpw);
-        LoginVo loginVo = userMapper.login(loginDto);
+        LoginVo loginVo = authMapper.login(loginDto);
 
         //单点登录
         String key = "auth:" + loginVo.getId();
@@ -82,7 +82,7 @@ public class AuthServiceImpl implements AuthService {
     public Result current(String token) {
         LoginVo loginVo = tokenUtil.analysisToken(token);
         //再去调用mapper来获取值
-        CurrentVo currentVo = userMapper.current(loginVo);
+        CurrentVo currentVo = authMapper.current(loginVo);
         return Result.success(200, currentVo);
     }
 
@@ -98,7 +98,7 @@ public class AuthServiceImpl implements AuthService {
         //把密码和token放到一个类里
         LoginVo loginVo = tokenUtil.analysisToken(token);
         LoginDto loginDto = new LoginDto(loginVo.getUsername(), passwordDto.getOldPassword());
-        String hashpw = userMapper.UnToPw(loginDto.getUsername());
+        String hashpw = authMapper.UnToPw(loginDto.getUsername());
         if (hashpw == null || !passwordUtil.verificationPassword(loginDto.getPassword(), hashpw)) {
             return Result.error(200, "旧密码错误");
         }
@@ -122,7 +122,7 @@ public class AuthServiceImpl implements AuthService {
 
         //存入数据库
         loginDto.setPassword(passwordUtil.encryptionPassword(passwordDto.getNewPassword()));
-        userMapper.updateUser(loginDto);
+        authMapper.updateUser(loginDto);
 
         return Result.success(200);
     }

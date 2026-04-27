@@ -1,4 +1,4 @@
-package cn.edu.sjziei.lms.util;
+package cn.edu.sjziei.lms.common.util;
 
 import cn.hutool.crypto.CryptoException;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
