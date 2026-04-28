@@ -16,5 +16,5 @@ public class EditUserDto {
     String phone; //手机号
     //String password; //密码（6-20位）
     Long roleId; //角色ID
-    Integer status; //状态
+    //Integer status; //状态
 }

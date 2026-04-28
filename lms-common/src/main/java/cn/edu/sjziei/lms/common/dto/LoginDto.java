@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginDto {
-    String username;
-    String password;
-    String uuid;
-    String code;
+    String username; //用户名
+    String password; //密码
+    String uuid; //uuid
+    String code; //验证码
 }

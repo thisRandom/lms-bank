@@ -44,7 +44,7 @@ public interface UserMapper {
     public Integer unToId(String username);
 
     @Update("UPDATE sys_user SET real_name = #{realName}, phone = #{phone}, " +
-            " role_id = #{roleId}, status = #{status}, " +
+            " role_id = #{roleId}, " +
             "update_time = NOW() WHERE id = #{id}")
     public void editUserToAdmin(EditUserDto editUserDto);
 

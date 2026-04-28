@@ -103,9 +103,9 @@ public class UserServiceImpl implements UserService {
                 return Result.error(400, "手机号不符合要求");
             if (editUserDto.getRoleId() == null || editUserDto.getRoleId() < 1 || editUserDto.getRoleId() > 4)
                 return Result.error(400, "角色ID不符合要求");
-            if (editUserDto.getStatus() != 1 && editUserDto.getStatus() != 0) {
+            /*if (editUserDto.getStatus() != 1 && editUserDto.getStatus() != 0) {
                 return Result.error(400, "状态不符合要求");
-            }
+            }*/
 //            editUserDto.setPassword(passwordUtil.encryptionPassword(editUserDto.getPassword()));
             //存入数据库
             userMapper.editUserToAdmin(editUserDto);
@@ -153,9 +153,9 @@ public class UserServiceImpl implements UserService {
         //默认密码“123456Abc”
         String password="123456Abc";
         userMapper.resetPassword(new ResetPasswordDto(id,passwordUtil.encryptionPassword(password)));
-        //返回给前端的密文
-        loginUtil.PToeP(password);
-        return Result.success(200,new ResetPasswordVo(password));
+        /*//返回给前端的密文
+        String ep = loginUtil.PToeP(password);*/
+        return Result.success(200);
     }
 
     @Override

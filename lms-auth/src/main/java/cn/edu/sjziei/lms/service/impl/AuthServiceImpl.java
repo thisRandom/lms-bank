@@ -37,11 +37,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Result login(LoginDto loginDto) {
         //验证码
-        String capKey ="CAPTCHA:" +loginDto.getCode();
+        String capKey ="CAPTCHA:" +loginDto.getCode().toLowerCase();
         String uuid = (String)redisUtil.get(capKey);
         if (uuid==null||!StrUtil.equals(uuid,loginDto.getUuid())) {
             return Result.error(400, "验证码错误");
         }
+        //删除验证码
+        redisUtil.del(capKey);
 
         try {
             loginDto.setPassword(loginUtil.ePToPassword(loginDto.getPassword()));
