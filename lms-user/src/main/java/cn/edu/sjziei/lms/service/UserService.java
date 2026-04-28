@@ -1,10 +1,7 @@
 package cn.edu.sjziei.lms.service;
 
 import cn.edu.sjziei.lms.common.result.Result;
-import cn.edu.sjziei.lms.dto.AddUserDto;
-import cn.edu.sjziei.lms.dto.EDUserDto;
-import cn.edu.sjziei.lms.dto.EditUserDto;
-import cn.edu.sjziei.lms.dto.GetListUsersDto;
+import cn.edu.sjziei.lms.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
@@ -21,4 +18,6 @@ public interface UserService {
     Result resetPassword(Integer id);
 
     Result edUser(Integer id, EDUserDto edUserDto);
+
+    Result editBasicInfo(EditBasicInfoDto editBasicInfoDto, String token);
 }

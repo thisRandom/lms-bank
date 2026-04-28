@@ -7,10 +7,7 @@ import cn.edu.sjziei.lms.common.result.Result;
 import cn.edu.sjziei.lms.common.util.PasswordUtil;
 import cn.edu.sjziei.lms.common.util.TokenUtil;
 import cn.edu.sjziei.lms.common.vo.LoginVo;
-import cn.edu.sjziei.lms.dto.AddUserDto;
-import cn.edu.sjziei.lms.dto.EDUserDto;
-import cn.edu.sjziei.lms.dto.EditUserDto;
-import cn.edu.sjziei.lms.dto.GetListUsersDto;
+import cn.edu.sjziei.lms.dto.*;
 import cn.edu.sjziei.lms.mapper.UserMapper;
 import cn.edu.sjziei.lms.service.UserService;
 import cn.edu.sjziei.lms.util.UserUtil;
@@ -92,21 +89,10 @@ public class UserServiceImpl implements UserService {
         String role = loginVo.getRole();
         //可编辑所有用户的所有字段
         if (StrUtil.equals("ADMIN", role)) {
-//            try {
-//                editUserDto.setPassword(loginUtil.ePToPassword(editUserDto.getPassword()));
-//            } catch (Exception e) {
-//                return Result.error(400, "密码不符合规范");
-//            }
-//            if (editUserDto.getPassword() == null || !passwordUtil.isPasswordValid(editUserDto.getPassword()))
-//                return Result.error(400, "密码不符合要求");
             if (!userUtil.inspectionP(editUserDto.getPhone()))
                 return Result.error(400, "手机号不符合要求");
             if (editUserDto.getRoleId() == null || editUserDto.getRoleId() < 1 || editUserDto.getRoleId() > 4)
                 return Result.error(400, "角色ID不符合要求");
-            /*if (editUserDto.getStatus() != 1 && editUserDto.getStatus() != 0) {
-                return Result.error(400, "状态不符合要求");
-            }*/
-//            editUserDto.setPassword(passwordUtil.encryptionPassword(editUserDto.getPassword()));
             //存入数据库
             userMapper.editUserToAdmin(editUserDto);
         }
@@ -115,16 +101,8 @@ public class UserServiceImpl implements UserService {
             //先判断传回来的id是否为司机的
             if (!StrUtil.equals("DRIVER", userMapper.idToRole(id))) return Result.error(400, "没有权限");
             //在实现其他业务逻辑
-//            try {
-//                editUserDto.setPassword(loginUtil.ePToPassword(editUserDto.getPassword()));
-//            } catch (Exception e) {
-//                return Result.error(400, "密码不符合规范");
-//            }
-//            if (editUserDto.getPassword() == null || !passwordUtil.isPasswordValid(editUserDto.getPassword()))
-//                return Result.error(400, "密码不符合要求");
             if (!userUtil.inspectionP(editUserDto.getPhone()))
                 return Result.error(400, "手机号不符合要求");
-            //editUserDto.setPassword(passwordUtil.encryptionPassword(editUserDto.getPassword()));
             //存入数据库
             userMapper.editUserToDispatcher(editUserDto);
         }
@@ -165,6 +143,19 @@ public class UserServiceImpl implements UserService {
         if(Objects.equals(0,edUserDto.getStatus())){
             redisUtil.del("auth:" + id);
         }
+        return Result.success(200);
+    }
+
+    @Override
+    public Result editBasicInfo(EditBasicInfoDto editBasicInfoDto, String token) {
+        if (!userUtil.inspectionP(editBasicInfoDto.getPhone()))
+            return Result.error(400, "手机号不符合要求");
+        Integer id = tokenUtil.analysisToken(token).getId();
+        EditUserDto editUserDto = new EditUserDto();
+        editUserDto.setId(id);
+        editUserDto.setPhone(editBasicInfoDto.getPhone());
+        editUserDto.setRealName(editBasicInfoDto.getRealName());
+        userMapper.editUserToOther(editUserDto);
         return Result.success(200);
     }
 }

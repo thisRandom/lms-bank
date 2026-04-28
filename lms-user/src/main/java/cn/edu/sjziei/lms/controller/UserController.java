@@ -2,10 +2,7 @@ package cn.edu.sjziei.lms.controller;
 
 import cn.edu.sjziei.lms.common.annotation.RequiresPermissions;
 import cn.edu.sjziei.lms.common.result.Result;
-import cn.edu.sjziei.lms.dto.AddUserDto;
-import cn.edu.sjziei.lms.dto.EDUserDto;
-import cn.edu.sjziei.lms.dto.EditUserDto;
-import cn.edu.sjziei.lms.dto.GetListUsersDto;
+import cn.edu.sjziei.lms.dto.*;
 import cn.edu.sjziei.lms.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +68,13 @@ public class UserController {
     @RequiresPermissions({"ADMIN"})
     public Result eDUser(@Valid @RequestBody EDUserDto edUserDto, @PathVariable("id") Integer id){
         return userService.edUser(id,edUserDto);
+    }
+
+    /**
+     * 基本信息编辑
+     * */
+    @PutMapping("/update")
+    public Result editBasicInfo(@Valid @RequestBody EditBasicInfoDto editBasicInfoDto,@RequestHeader("Authorization") String token){
+        return userService.editBasicInfo(editBasicInfoDto,token);
     }
 }
