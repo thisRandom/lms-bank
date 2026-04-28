@@ -50,6 +50,11 @@ public class PermissionInterceptor implements HandlerInterceptor {
         }
 
         //鉴权
+        if (!(handler instanceof HandlerMethod)) {
+            // 如果是 ResourceHttpRequestHandler (静态资源)
+            // 或者其他的处理器，直接放行，不进行权限校验
+            return true;
+        }
         // 将 handler 强转为 HandlerMethod
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         // 获取方法上的 RequiresPermissions 注解

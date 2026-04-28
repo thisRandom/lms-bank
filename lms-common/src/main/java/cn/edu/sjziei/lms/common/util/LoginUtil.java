@@ -29,4 +29,13 @@ public class LoginUtil {
             throw new RuntimeException("密码解密失败，请检查密文格式或密钥配置", e);
         }
     }
+
+    /**
+     * 转成加密的返回给前端
+     * */
+    public String PToeP(String password){
+        SymmetricCrypto symmetricCrypto = new SymmetricCrypto(SymmetricAlgorithm.AES, secretKey.getBytes());
+        String ep = symmetricCrypto.encryptHex(password);
+        return ep;
+    }
 }

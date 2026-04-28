@@ -23,4 +23,6 @@ public interface AuthMapper {
      * */
     @Select("select *from `sys_user`where id=#{id}")
     public User idToUser(LoginVo loginVo);
+    @Select("select status from `sys_user`where username=#{username}")
+    public Integer veriStatus(String username);
 }

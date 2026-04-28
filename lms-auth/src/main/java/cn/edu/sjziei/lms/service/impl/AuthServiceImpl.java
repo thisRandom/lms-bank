@@ -4,6 +4,7 @@ import cn.edu.sjziei.lms.common.result.Result;
 import cn.edu.sjziei.lms.common.util.RedisUtil;
 import cn.edu.sjziei.lms.common.dto.LoginDto;
 import cn.edu.sjziei.lms.common.dto.PasswordDto;
+import cn.edu.sjziei.lms.entity.User;
 import cn.edu.sjziei.lms.mapper.AuthMapper;
 import cn.edu.sjziei.lms.service.AuthService;
 import cn.edu.sjziei.lms.common.util.LoginUtil;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -37,13 +39,19 @@ public class AuthServiceImpl implements AuthService {
         try {
             loginDto.setPassword(loginUtil.ePToPassword(loginDto.getPassword()));
         } catch (Exception e) {
-            return Result.error(200, "用户名或密码错误");
+            return Result.error(400, "用户名或密码错误");
         }
 
         //验证密码
         String hashpw = authMapper.UnToPw(loginDto.getUsername());
         if (hashpw == null || !passwordUtil.verificationPassword(loginDto.getPassword(), hashpw)) {
-            return Result.error(200, "用户名或密码错误");
+            return Result.error(400, "用户名或密码错误");
+        }
+
+        //验证状态
+        Integer status=authMapper.veriStatus(loginDto.getUsername());
+        if(Objects.equals(0,status)){
+            return Result.error(400,"用户已被禁用");
         }
 
         //得到数据
@@ -92,7 +100,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             passwordDto.setOldPassword(loginUtil.ePToPassword(passwordDto.getOldPassword()));
         } catch (Exception e) {
-            return Result.error(200, "旧密码错误");
+            return Result.error(400, "旧密码错误");
         }
 
         //把密码和token放到一个类里
@@ -100,29 +108,32 @@ public class AuthServiceImpl implements AuthService {
         LoginDto loginDto = new LoginDto(loginVo.getUsername(), passwordDto.getOldPassword());
         String hashpw = authMapper.UnToPw(loginDto.getUsername());
         if (hashpw == null || !passwordUtil.verificationPassword(loginDto.getPassword(), hashpw)) {
-            return Result.error(200, "旧密码错误");
+            return Result.error(400, "旧密码错误");
         }
 
         //后端解密新密码
         try {
             passwordDto.setNewPassword(loginUtil.ePToPassword(passwordDto.getNewPassword()));
         } catch (Exception e) {
-            return Result.error(200, "新密码不符合规范");
+            return Result.error(400, "新密码不符合规范");
         }
 
         //验证新密码是否符合规范
         if (!passwordUtil.isPasswordValid(passwordDto.getNewPassword())) {
-            return Result.error(200, "新密码不符合规范");
+            return Result.error(400, "新密码不符合规范");
         }
 
         //验证新密码是否与旧密码相同
         if (passwordUtil.verificationPassword(passwordDto.getNewPassword(), hashpw)) {
-            return Result.error(200, "新密码不能与旧密码相同");
+            return Result.error(400, "新密码不能与旧密码相同");
         }
 
         //存入数据库
         loginDto.setPassword(passwordUtil.encryptionPassword(passwordDto.getNewPassword()));
         authMapper.updateUser(loginDto);
+
+        //把当前的登录状态删除掉
+        redisUtil.del("auth:" + loginVo.getId());
 
         return Result.success(200);
     }
