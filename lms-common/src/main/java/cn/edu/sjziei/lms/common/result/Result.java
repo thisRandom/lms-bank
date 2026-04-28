@@ -29,7 +29,7 @@ public class Result {
     public static Result error(Integer code,String msg) {
         Result result = new Result();
         result.msg = msg;
-        result.code = 500;
+        result.code = code;
         return result;
     }
 

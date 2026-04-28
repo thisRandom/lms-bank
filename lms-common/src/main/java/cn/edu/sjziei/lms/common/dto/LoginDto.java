@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class LoginDto {
     String username;
     String password;
+    String uuid;
+    String code;
 }

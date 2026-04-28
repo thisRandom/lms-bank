@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
     public Result edUser(Integer id, EDUserDto edUserDto) {
         edUserDto.setId(id);
         userMapper.edUser(edUserDto);
-        if(Objects.equals(1,edUserDto.getStatus())){
+        if(Objects.equals(0,edUserDto.getStatus())){
             redisUtil.del("auth:" + id);
         }
         return Result.success(200);

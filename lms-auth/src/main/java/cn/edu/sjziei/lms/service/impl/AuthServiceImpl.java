@@ -4,7 +4,6 @@ import cn.edu.sjziei.lms.common.result.Result;
 import cn.edu.sjziei.lms.common.util.RedisUtil;
 import cn.edu.sjziei.lms.common.dto.LoginDto;
 import cn.edu.sjziei.lms.common.dto.PasswordDto;
-import cn.edu.sjziei.lms.entity.User;
 import cn.edu.sjziei.lms.mapper.AuthMapper;
 import cn.edu.sjziei.lms.service.AuthService;
 import cn.edu.sjziei.lms.common.util.LoginUtil;
@@ -12,6 +11,7 @@ import cn.edu.sjziei.lms.common.util.PasswordUtil;
 import cn.edu.sjziei.lms.common.util.TokenUtil;
 import cn.edu.sjziei.lms.common.vo.CurrentVo;
 import cn.edu.sjziei.lms.common.vo.LoginVo;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +36,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Result login(LoginDto loginDto) {
+        //验证码
+        String capKey ="CAPTCHA:" +loginDto.getCode();
+        String uuid = (String)redisUtil.get(capKey);
+        if (uuid==null||!StrUtil.equals(uuid,loginDto.getUuid())) {
+            return Result.error(400, "验证码错误");
+        }
+
         try {
             loginDto.setPassword(loginUtil.ePToPassword(loginDto.getPassword()));
         } catch (Exception e) {
@@ -64,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
         redisUtil.set(key, value, 60 * 60 * 2);
 
         //获取token
-        long timeMillis = System.currentTimeMillis() + +1000 * 60 * 60 * 2;
+        long timeMillis = System.currentTimeMillis() + 1000 * 60 * 60 * 2;
         String token = tokenUtil.getToken(timeMillis, loginVo, value);
 
         //返回的数据
@@ -105,7 +112,7 @@ public class AuthServiceImpl implements AuthService {
 
         //把密码和token放到一个类里
         LoginVo loginVo = tokenUtil.analysisToken(token);
-        LoginDto loginDto = new LoginDto(loginVo.getUsername(), passwordDto.getOldPassword());
+        LoginDto loginDto = new LoginDto(loginVo.getUsername(), passwordDto.getOldPassword(),null,null);
         String hashpw = authMapper.UnToPw(loginDto.getUsername());
         if (hashpw == null || !passwordUtil.verificationPassword(loginDto.getPassword(), hashpw)) {
             return Result.error(400, "旧密码错误");

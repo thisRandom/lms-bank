@@ -30,6 +30,7 @@
         <lombok.version>1.18.30</lombok.version>
         <SpringBoot.version>3.5.13</SpringBoot.version>
         <pageHelper.version>2.1.0</pageHelper.version>
+        <whvcse.version>1.6.2</whvcse.version>
     </properties>
 
     <dependencyManagement>
@@ -75,6 +76,13 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pageHelper.version}</version>
+            </dependency>
+
+            <!--验证码-->
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${whvcse.version}</version>
             </dependency>
 
             <!-- 子模块 -->
