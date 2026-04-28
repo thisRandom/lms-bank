@@ -44,7 +44,7 @@ public interface UserMapper {
     public Integer unToId(String username);
 
     @Update("UPDATE sys_user SET real_name = #{realName}, phone = #{phone}, " +
-            "password = #{password}, role_id = #{roleId}, status = #{status}, " +
+            " role_id = #{roleId}, status = #{status}, " +
             "update_time = NOW() WHERE id = #{id}")
     public void editUserToAdmin(EditUserDto editUserDto);
 
@@ -52,7 +52,6 @@ public interface UserMapper {
     public String idToRole(Integer id);
 
     @Update("UPDATE sys_user SET real_name = #{realName}, phone = #{phone}, " +
-            "password = #{password},  " +
             "update_time = NOW() WHERE id = #{id}")
     public void editUserToDispatcher(EditUserDto editUserDto);
 

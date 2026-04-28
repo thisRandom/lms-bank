@@ -14,7 +14,7 @@ public class EditUserDto {
     String realName; //真实姓名
     @NotNull(message = "手机号不能为空")
     String phone; //手机号
-    String password; //密码（6-20位）
+    //String password; //密码（6-20位）
     Long roleId; //角色ID
     Integer status; //状态
 }

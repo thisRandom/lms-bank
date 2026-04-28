@@ -92,13 +92,13 @@ public class UserServiceImpl implements UserService {
         String role = loginVo.getRole();
         //可编辑所有用户的所有字段
         if (StrUtil.equals("ADMIN", role)) {
-            try {
-                editUserDto.setPassword(loginUtil.ePToPassword(editUserDto.getPassword()));
-            } catch (Exception e) {
-                return Result.error(400, "密码不符合规范");
-            }
-            if (editUserDto.getPassword() == null || !passwordUtil.isPasswordValid(editUserDto.getPassword()))
-                return Result.error(400, "密码不符合要求");
+//            try {
+//                editUserDto.setPassword(loginUtil.ePToPassword(editUserDto.getPassword()));
+//            } catch (Exception e) {
+//                return Result.error(400, "密码不符合规范");
+//            }
+//            if (editUserDto.getPassword() == null || !passwordUtil.isPasswordValid(editUserDto.getPassword()))
+//                return Result.error(400, "密码不符合要求");
             if (!userUtil.inspectionP(editUserDto.getPhone()))
                 return Result.error(400, "手机号不符合要求");
             if (editUserDto.getRoleId() == null || editUserDto.getRoleId() < 1 || editUserDto.getRoleId() > 4)
@@ -106,25 +106,25 @@ public class UserServiceImpl implements UserService {
             if (editUserDto.getStatus() != 1 && editUserDto.getStatus() != 0) {
                 return Result.error(400, "状态不符合要求");
             }
-            editUserDto.setPassword(passwordUtil.encryptionPassword(editUserDto.getPassword()));
+//            editUserDto.setPassword(passwordUtil.encryptionPassword(editUserDto.getPassword()));
             //存入数据库
             userMapper.editUserToAdmin(editUserDto);
         }
-        //可编辑 DRIVER 角色的 phone, realName, password
+        //可编辑 DRIVER 角色的 phone, realName
         else if (StrUtil.equals("DISPATCHER", role)) {
             //先判断传回来的id是否为司机的
             if (!StrUtil.equals("DRIVER", userMapper.idToRole(id))) return Result.error(400, "没有权限");
             //在实现其他业务逻辑
-            try {
-                editUserDto.setPassword(loginUtil.ePToPassword(editUserDto.getPassword()));
-            } catch (Exception e) {
-                return Result.error(400, "密码不符合规范");
-            }
-            if (editUserDto.getPassword() == null || !passwordUtil.isPasswordValid(editUserDto.getPassword()))
-                return Result.error(400, "密码不符合要求");
+//            try {
+//                editUserDto.setPassword(loginUtil.ePToPassword(editUserDto.getPassword()));
+//            } catch (Exception e) {
+//                return Result.error(400, "密码不符合规范");
+//            }
+//            if (editUserDto.getPassword() == null || !passwordUtil.isPasswordValid(editUserDto.getPassword()))
+//                return Result.error(400, "密码不符合要求");
             if (!userUtil.inspectionP(editUserDto.getPhone()))
                 return Result.error(400, "手机号不符合要求");
-            editUserDto.setPassword(passwordUtil.encryptionPassword(editUserDto.getPassword()));
+            //editUserDto.setPassword(passwordUtil.encryptionPassword(editUserDto.getPassword()));
             //存入数据库
             userMapper.editUserToDispatcher(editUserDto);
         }
