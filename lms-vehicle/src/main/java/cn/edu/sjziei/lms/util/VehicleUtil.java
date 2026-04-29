@@ -2,6 +2,7 @@ package cn.edu.sjziei.lms.util;
 
 import cn.edu.sjziei.lms.mapper.VehicleMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
  * */
 @Component
 public class VehicleUtil {
-    @Mapper
+    @Autowired
     VehicleMapper vehicleMapper;
 
     /**
@@ -17,7 +18,7 @@ public class VehicleUtil {
      * */
     public boolean verPlateNumber(String plateNumber){
         if (plateNumber==null) return false;
-        String regex="/^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4})))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳上试]))$/";
+        String regex="^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4})))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳上试]))$";
         if (!plateNumber.matches(regex)) return false;
         //验证车牌是否唯一
         if (vehicleMapper.countByPlateNumber(plateNumber)>0) return false;
