@@ -11,13 +11,13 @@ public interface UserService {
 
     Result addUser(AddUserDto addUserDto);
 
-    Result editUser(EditUserDto editUserDto,Integer id, String token);
+    Result editUser(EditUserDto editUserDto,Long id, String token);
 
-    Result deleteUser(Integer id);
+    Result deleteUser(Long id);
 
-    Result resetPassword(Integer id);
+    Result resetPassword(Long id);
 
-    Result edUser(Integer id, EDUserDto edUserDto);
+    Result edUser(Long id, EDUserDto edUserDto);
 
     Result editBasicInfo(EditBasicInfoDto editBasicInfoDto, String token);
 }

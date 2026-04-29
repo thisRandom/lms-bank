@@ -19,6 +19,17 @@
             <artifactId>lms-common</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.edu.sjziei</groupId>
+            <artifactId>lms-user</artifactId>
+        </dependency>
+
+        <!--PageHelper-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+
         <!-- Spring Boot Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

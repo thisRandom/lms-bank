@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecordVo {
-    Integer id; //编号
+    Long id; //编号
     String username; //用户名
     String realName; //真实姓名
     String phone; //手机号

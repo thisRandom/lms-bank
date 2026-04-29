@@ -89,7 +89,7 @@ public class TokenUtil {
      * 验证token里的值与redis是否相同
      * */
     public boolean tokenValueEqualToRedis(String token){
-        Integer id=this.analysisToken(token).getId();
+        Long id=this.analysisToken(token).getId();
         String value = this.analysisTokenToValue(token);
         String redisValue = (String)redisUtil.get("auth:" + id);
 

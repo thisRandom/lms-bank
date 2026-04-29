@@ -1,4 +1,4 @@
-package cn.edu.sjziei.lms.common.dto;
+package cn.edu.sjziei.lms.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResetPasswordDto {
+public class AddVehicleVo {
     Long id;
-    String password;
 }

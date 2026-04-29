@@ -86,7 +86,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Result logout(String token) {
-        Integer id = tokenUtil.analysisToken(token).getId();
+        Long id = tokenUtil.analysisToken(token).getId();
         redisUtil.del("auth:" + id);
         return Result.success(200);
     }

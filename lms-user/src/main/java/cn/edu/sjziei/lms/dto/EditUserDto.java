@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EditUserDto {
-    Integer id;
+    Long id;
     @NotNull(message = "真实姓名不能为空")
     String realName; //真实姓名
     @NotNull(message = "手机号不能为空")

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginVo {
-    Integer id;
+    Long id;
     String username; //用户名
     String realName; //真实姓名
     String role; //角色

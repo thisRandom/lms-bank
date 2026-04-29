@@ -41,7 +41,7 @@ public interface UserMapper {
             "VALUES(#{username}, #{password}, #{realName}, #{phone}, #{roleId}, #{status}, NOW(), NOW())")
     public void addUser(AddUserDto addUserDto);
     @Select("SELECT id FROM sys_user WHERE username =#{username}")
-    public Integer unToId(String username);
+    public Long unToId(String username);
 
     @Update("UPDATE sys_user SET real_name = #{realName}, phone = #{phone}, " +
             " role_id = #{roleId}, " +
@@ -49,7 +49,7 @@ public interface UserMapper {
     public void editUserToAdmin(EditUserDto editUserDto);
 
     @Select("SELECT r.role_code from sys_user u,sys_role r where u.id=#{id} and u.role_id=r.id")
-    public String idToRole(Integer id);
+    public String idToRole(Long id);
 
     @Update("UPDATE sys_user SET real_name = #{realName}, phone = #{phone}, " +
             "update_time = NOW() WHERE id = #{id}")
@@ -60,7 +60,7 @@ public interface UserMapper {
     public void editUserToOther(EditUserDto editUserDto);
 
     @Delete("DELETE FROM sys_user WHERE id = #{id}")
-    public void deleteUser(Integer id);
+    public void deleteUser(Long id);
 
     @Update("UPDATE sys_user SET password = #{password},update_time = NOW() where id=#{id}")
     public void resetPassword(ResetPasswordDto resetPasswordDto);

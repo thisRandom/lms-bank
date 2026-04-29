@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result editUser(EditUserDto editUserDto, Integer id, String token) {
+    public Result editUser(EditUserDto editUserDto, Long id, String token) {
         editUserDto.setId(id);
         LoginVo loginVo = tokenUtil.analysisToken(token);
         String role = loginVo.getRole();
@@ -121,13 +121,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result deleteUser(Integer id) {
+    public Result deleteUser(Long id) {
         userMapper.deleteUser(id);
         return Result.success(200);
     }
 
     @Override
-    public Result resetPassword(Integer id) {
+    public Result resetPassword(Long id) {
         //默认密码“123456Abc”
         String password="123456Abc";
         userMapper.resetPassword(new ResetPasswordDto(id,passwordUtil.encryptionPassword(password)));
@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result edUser(Integer id, EDUserDto edUserDto) {
+    public Result edUser(Long id, EDUserDto edUserDto) {
         edUserDto.setId(id);
         userMapper.edUser(edUserDto);
         if(Objects.equals(0,edUserDto.getStatus())){
@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService {
     public Result editBasicInfo(EditBasicInfoDto editBasicInfoDto, String token) {
         if (!userUtil.inspectionP(editBasicInfoDto.getPhone()))
             return Result.error(400, "手机号不符合要求");
-        Integer id = tokenUtil.analysisToken(token).getId();
+        Long id = tokenUtil.analysisToken(token).getId();
         EditUserDto editUserDto = new EditUserDto();
         editUserDto.setId(id);
         editUserDto.setPhone(editBasicInfoDto.getPhone());

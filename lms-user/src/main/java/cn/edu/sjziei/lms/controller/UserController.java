@@ -39,7 +39,7 @@ public class UserController {
      * 编辑用户
      * */
     @PutMapping("/{id}")
-    public Result editUser(@Valid @RequestBody EditUserDto editUserDto, @PathVariable("id") Integer id, @RequestHeader("Authorization") String token){
+    public Result editUser(@Valid @RequestBody EditUserDto editUserDto, @PathVariable("id") Long id, @RequestHeader("Authorization") String token){
         return userService.editUser(editUserDto,id,token);
     }
 
@@ -48,7 +48,7 @@ public class UserController {
      * */
     @DeleteMapping("/{id}")
     @RequiresPermissions({"ADMIN"})
-    public Result deleteUser(@PathVariable("id") Integer id){
+    public Result deleteUser(@PathVariable("id") Long id){
         return userService.deleteUser(id);
     }
 
@@ -57,7 +57,7 @@ public class UserController {
      * */
     @PutMapping("/{id}/reset-password")
     @RequiresPermissions({"ADMIN"})
-    public Result resetPassword(@PathVariable("id") Integer id){
+    public Result resetPassword(@PathVariable("id") Long id){
         return userService.resetPassword(id);
     }
 
@@ -66,7 +66,7 @@ public class UserController {
      * */
     @PutMapping("/{id}/status")
     @RequiresPermissions({"ADMIN"})
-    public Result eDUser(@Valid @RequestBody EDUserDto edUserDto, @PathVariable("id") Integer id){
+    public Result eDUser(@Valid @RequestBody EDUserDto edUserDto, @PathVariable("id") Long id){
         return userService.edUser(id,edUserDto);
     }
 

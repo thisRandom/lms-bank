@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class EDUserDto {
     @NotNull(message = "不能为空")
     Integer status;
-    Integer id;
+    Long id;
 }
