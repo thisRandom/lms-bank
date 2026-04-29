@@ -32,13 +32,13 @@ public class VehicleController {
 
     @PutMapping("/{id}")
     @RequiresPermissions({"ADMIN", "DISPATCHER"})
-    public Result updateVehicle(@PathVariable Long id, @RequestBody UpdateVehicleDto dto) {
+    public Result updateVehicle(@PathVariable("id") Long id, @RequestBody UpdateVehicleDto dto) {
         return vehicleService.updateVehicle(id, dto);
     }
 
     @DeleteMapping("/{id}")
     @RequiresPermissions({"ADMIN"})
-    public Result deleteVehicle(@PathVariable Long id) {
+    public Result deleteVehicle(@PathVariable("id") Long id) {
         return vehicleService.deleteVehicle(id);
     }
 
