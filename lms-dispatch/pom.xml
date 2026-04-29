@@ -18,6 +18,16 @@
             <groupId>cn.edu.sjziei</groupId>
             <artifactId>lms-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.edu.sjziei</groupId>
+            <artifactId>lms-order</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.edu.sjziei</groupId>
+            <artifactId>lms-vehicle</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- Spring Boot Web -->
         <dependency>
