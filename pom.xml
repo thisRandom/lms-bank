@@ -17,7 +17,6 @@
         <module>lms-vehicle</module>
         <module>lms-order</module>
         <module>lms-dispatch</module>
-        <module>lms-location</module>
         <module>lms-app</module>
     </modules>
 

@@ -39,10 +39,6 @@
             <groupId>cn.edu.sjziei</groupId>
             <artifactId>lms-dispatch</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.edu.sjziei</groupId>
-            <artifactId>lms-location</artifactId>
-        </dependency>
 
         <!-- Spring Boot Web -->
         <dependency>
