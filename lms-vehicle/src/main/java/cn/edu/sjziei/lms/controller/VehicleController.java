@@ -25,7 +25,7 @@ public class VehicleController {
     }
 
     @PostMapping
-    @RequiresPermissions({"ADMIN", "DRIVER"})
+    @RequiresPermissions({"ADMIN", "DISPATCHER"})
     public Result addVehicle(@RequestBody AddVehicleDto addVehicleDto, @RequestHeader("Authorization") String token) {
         return vehicleService.addVehicle(addVehicleDto, token);
     }

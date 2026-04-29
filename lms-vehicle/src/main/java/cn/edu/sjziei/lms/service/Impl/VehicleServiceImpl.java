@@ -36,10 +36,10 @@ public class VehicleServiceImpl implements VehicleService {
     UserMapper userMapper;
 
     @Override
-    public Result getVehicleList(GetVehicleListDto getVehicleListDto,String token) {
+    public Result getVehicleList(GetVehicleListDto getVehicleListDto, String token) {
         LoginVo loginVo = tokenUtil.analysisToken(token);
         String role = loginVo.getRole();
-        if(StrUtil.equals("DRIVER",role)){
+        if (StrUtil.equals("DRIVER", role)) {
             getVehicleListDto.setDriverId(loginVo.getId());
         }
         PageHelper.startPage(getVehicleListDto.getPage(), getVehicleListDto.getSize());
@@ -55,13 +55,9 @@ public class VehicleServiceImpl implements VehicleService {
         if (!vehicleUtil.verLoadCapacity(addVehicleDto.getLoadCapacity())) return Result.error(400, "吨数不符合规则");
 
         LoginVo loginVo = tokenUtil.analysisToken(token);
-        String role = loginVo.getRole();
-        if (StrUtil.equals(role, "ADMIN")) {
-            if (!StrUtil.equals("DRIVER", userMapper.idToRole(addVehicleDto.getDriverId()))) {
-                return Result.error(400, "该用户不能使用该方法");
-            }
-        } else {
-            addVehicleDto.setDriverId(loginVo.getId());
+
+        if (!StrUtil.equals("DRIVER", userMapper.idToRole(addVehicleDto.getDriverId()))) {
+            return Result.error(400, "该用户不能使用该方法");
         }
         vehicleMapper.addVehicle(addVehicleDto);
         Long id = vehicleMapper.plateNumberToId(addVehicleDto.getPlateNumber());
@@ -97,6 +93,6 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public Result getIdleVehicles() {
         List<GetIdVehiclesVo> list = vehicleMapper.selectIdleVehicles();
-        return Result.success(200,list);
+        return Result.success(200, list);
     }
 }
