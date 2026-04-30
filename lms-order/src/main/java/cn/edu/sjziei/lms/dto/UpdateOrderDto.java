@@ -9,9 +9,8 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateOrderDto {
-    Long customerId; //客户ID（管理员创建时传）
-    String orderNo; //订单号
+public class UpdateOrderDto {
+    Long id; //订单ID
     String shipperName; //发货人
     String shipperPhone; //发货人电话
     String shipperAddress; //发货地址

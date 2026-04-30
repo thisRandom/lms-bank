@@ -2,6 +2,7 @@ package cn.edu.sjziei.lms.service.Impl;
 
 import cn.edu.sjziei.lms.dto.CreateOrderDto;
 import cn.edu.sjziei.lms.dto.GetOrderDto;
+import cn.edu.sjziei.lms.dto.UpdateOrderDto;
 import cn.edu.sjziei.lms.mapper.OrderMapper;
 import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.service.OrderService;
@@ -62,12 +63,71 @@ public class OrderServiceImpl implements OrderService {
             customerId = createOrderDto.getCustomerId();
         }
 
+        // 设置订单号和客户ID
+        createOrderDto.setOrderNo(orderNo);
+        createOrderDto.setCustomerId(customerId);
+
         // 插入订单
-        orderMapper.createOrder(createOrderDto, orderNo, customerId);
+        orderMapper.createOrder(createOrderDto);
 
         // 获取刚插入的订单ID
         Long id = orderMapper.getLastInsertId();
 
         return Result.success(200, new CreateOrderVo(id, orderNo));
+    }
+
+    public Result updateOrder(UpdateOrderDto updateOrderDto, String token) {
+        LoginVo loginVo = tokenUtil.analysisToken(token);
+        String role = loginVo.getRole();
+        Long orderId = updateOrderDto.getId();
+
+        // 获取订单状态和客户ID
+        String status = orderMapper.getOrderStatusById(orderId);
+        Long orderCustomerId = orderMapper.getOrderCustomerIdById(orderId);
+
+        // 权限校验
+        if (StrUtil.equals("CUSTOMER", role)) {
+            // 客户只能编辑自己的订单
+            if (!loginVo.getId().equals(orderCustomerId)) {
+                return Result.error(403, "无权限编辑此订单");
+            }
+            // 客户只能编辑PENDING状态的订单
+            if (!StrUtil.equals("PENDING", status)) {
+                return Result.error(400, "只有待调度状态的订单可以编辑");
+            }
+        }
+
+        // 更新订单
+        orderMapper.updateOrder(updateOrderDto);
+
+        return Result.success(200, null);
+    }
+
+    public Result cancelOrder(Long id, String token) {
+        LoginVo loginVo = tokenUtil.analysisToken(token);
+        String role = loginVo.getRole();
+
+        // 获取订单状态和客户ID
+        String status = orderMapper.getOrderStatusById(id);
+        Long orderCustomerId = orderMapper.getOrderCustomerIdById(id);
+
+        // 客户只能取消自己的订单
+        if (StrUtil.equals("CUSTOMER", role)) {
+            if (!loginVo.getId().equals(orderCustomerId)) {
+                return Result.error(403, "无权限取消此订单");
+            }
+        }
+
+        // 根据状态判断能否取消
+        if (StrUtil.equals("PENDING", status)) {
+            orderMapper.updateOrderStatus(id, "CANCELLED");
+            return Result.success(200, null);
+        } else if (StrUtil.equals("DISPATCHED", status)) {
+            return Result.error(400, "该订单已调度，请联系调度员处理取消");
+        } else if (StrUtil.equals("IN_TRANSIT", status)) {
+            return Result.error(400, "该订单运输中，请联系调度员处理取消");
+        }
+
+        return Result.error(400, "无法取消此订单");
     }
 }
