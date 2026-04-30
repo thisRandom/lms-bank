@@ -41,7 +41,6 @@ public interface OrderMapper {
             "receiver_name, receiver_phone, receiver_address, goods_type, weight, volume, remark, customer_id, status) " +
             "VALUES (#{orderNo}, #{shipperName}, #{shipperPhone}, #{shipperAddress}, " +
             "#{receiverName}, #{receiverPhone}, #{receiverAddress}, #{goodsType}, #{weight}, #{volume}, #{remark}, #{customerId}, 'PENDING')")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
     public void createOrder(CreateOrderDto createOrderDto);
 
     @Select("SELECT order_no FROM ord_order WHERE order_no LIKE CONCAT('ORD', #{date}, '%') ORDER BY order_no DESC LIMIT 1")
