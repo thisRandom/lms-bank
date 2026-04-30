@@ -2,7 +2,7 @@ package cn.edu.sjziei.lms.mapper;
 
 import cn.edu.sjziei.lms.dto.CreateOrderDto;
 import cn.edu.sjziei.lms.dto.GetOrderDto;
-import cn.edu.sjziei.lms.vo.RecordVo;
+import cn.edu.sjziei.lms.vo.GetRecordVo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -37,7 +37,7 @@ public interface OrderMapper {
             "</where>" +
             "ORDER BY create_time DESC" +
             "</script>")
-    public List<RecordVo> getOrderList(GetOrderDto getOrderDto);
+    public List<GetRecordVo> getOrderList(GetOrderDto getOrderDto);
 
     @Insert("INSERT INTO ord_order (order_no, shipper_name, shipper_phone, shipper_address, " +
             "receiver_name, receiver_phone, receiver_address, goods_type, weight, volume, remark, customer_id, status) " +

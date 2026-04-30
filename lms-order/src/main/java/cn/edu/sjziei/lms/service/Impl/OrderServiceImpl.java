@@ -10,7 +10,7 @@ import cn.edu.sjziei.lms.util.TokenUtil;
 import cn.edu.sjziei.lms.vo.CreateOrderVo;
 import cn.edu.sjziei.lms.vo.GetOrderVo;
 import cn.edu.sjziei.lms.vo.LoginVo;
-import cn.edu.sjziei.lms.vo.RecordVo;
+import cn.edu.sjziei.lms.vo.GetRecordVo;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -41,8 +41,8 @@ public class OrderServiceImpl implements OrderService {
 
         //查询数据
         PageHelper.startPage(getOrderDto.getPage(),getOrderDto.getSize());
-        List<RecordVo> list = orderMapper.getOrderList(getOrderDto);
-        PageInfo<RecordVo> info = new PageInfo<>(list);
+        List<GetRecordVo> list = orderMapper.getOrderList(getOrderDto);
+        PageInfo<GetRecordVo> info = new PageInfo<>(list);
         return Result.success(200,new GetOrderVo(info.getTotal(),info.getPages(),info.getPageNum(),list));
     }
 

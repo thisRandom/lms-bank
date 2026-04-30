@@ -13,5 +13,5 @@ public class GetOrderVo {
     Long total;
     Integer pages;
     Integer current;
-    List<RecordVo> records;
+    List<GetRecordVo> records;
 }

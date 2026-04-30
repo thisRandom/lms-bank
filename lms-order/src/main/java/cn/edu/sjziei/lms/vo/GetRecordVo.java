@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecordVo {
+public class GetRecordVo {
     Long id; //订单id
     String orderNo; //订单号
     String shipperName; //发货人
