@@ -1,9 +1,12 @@
 package cn.edu.sjziei.lms.mapper;
 
+import cn.edu.sjziei.lms.dto.CreateOrderDto;
 import cn.edu.sjziei.lms.dto.GetOrderDto;
 import cn.edu.sjziei.lms.vo.RecordVo;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Options;
 
 import java.util.List;
 
@@ -34,5 +37,18 @@ public interface OrderMapper {
             "</where>" +
             "ORDER BY create_time DESC" +
             "</script>")
-    public List<RecordVo> getOrderList(GetOrderDto getOrderDto) ;
+    public List<RecordVo> getOrderList(GetOrderDto getOrderDto);
+
+    @Insert("INSERT INTO ord_order (order_no, shipper_name, shipper_phone, shipper_address, " +
+            "receiver_name, receiver_phone, receiver_address, goods_type, weight, volume, remark, customer_id, status) " +
+            "VALUES (#{orderNo}, #{shipperName}, #{shipperPhone}, #{shipperAddress}, " +
+            "#{receiverName}, #{receiverPhone}, #{receiverAddress}, #{goodsType}, #{weight}, #{volume}, #{remark}, #{customerId}, 'PENDING')")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    public void createOrder(CreateOrderDto createOrderDto, String orderNo, Long customerId);
+
+    @Select("SELECT order_no FROM ord_order WHERE order_no LIKE CONCAT('ORD', #{date}, '%') ORDER BY order_no DESC LIMIT 1")
+    public String getMaxOrderNoByDate(String date);
+
+    @Select("SELECT LAST_INSERT_ID()")
+    public Long getLastInsertId();
 }

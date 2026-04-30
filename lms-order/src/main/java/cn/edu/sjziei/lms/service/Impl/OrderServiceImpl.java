@@ -1,10 +1,13 @@
 package cn.edu.sjziei.lms.service.Impl;
 
+import cn.edu.sjziei.lms.dto.CreateOrderDto;
 import cn.edu.sjziei.lms.dto.GetOrderDto;
 import cn.edu.sjziei.lms.mapper.OrderMapper;
 import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.service.OrderService;
+import cn.edu.sjziei.lms.util.OrderNoUtil;
 import cn.edu.sjziei.lms.util.TokenUtil;
+import cn.edu.sjziei.lms.vo.CreateOrderVo;
 import cn.edu.sjziei.lms.vo.GetOrderVo;
 import cn.edu.sjziei.lms.vo.LoginVo;
 import cn.edu.sjziei.lms.vo.RecordVo;
@@ -13,6 +16,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +26,9 @@ public class OrderServiceImpl implements OrderService {
     OrderMapper orderMapper;
     @Autowired
     TokenUtil tokenUtil;
+    @Autowired
+    OrderNoUtil orderNoUtil;
+
     public Result getOrderList(GetOrderDto getOrderDto, String token) {
         //分权
         LoginVo loginVo = tokenUtil.analysisToken(token);
@@ -37,5 +44,30 @@ public class OrderServiceImpl implements OrderService {
         List<RecordVo> list = orderMapper.getOrderList(getOrderDto);
         PageInfo<RecordVo> info = new PageInfo<>(list);
         return Result.success(200,new GetOrderVo(info.getTotal(),info.getPages(),info.getPageNum(),list));
+    }
+
+    @Transactional
+    public Result createOrder(CreateOrderDto createOrderDto, String token) {
+        LoginVo loginVo = tokenUtil.analysisToken(token);
+        String role = loginVo.getRole();
+
+        // 生成订单号: ORD + yyyyMMdd + 4位序号
+        String orderNo = orderNoUtil.generateOrderNo();
+
+        // 根据角色确定客户ID
+        Long customerId;
+        if (StrUtil.equals("CUSTOMER", role)) {
+            customerId = loginVo.getId();
+        } else {
+            customerId = createOrderDto.getCustomerId();
+        }
+
+        // 插入订单
+        orderMapper.createOrder(createOrderDto, orderNo, customerId);
+
+        // 获取刚插入的订单ID
+        Long id = orderMapper.getLastInsertId();
+
+        return Result.success(200, new CreateOrderVo(id, orderNo));
     }
 }
