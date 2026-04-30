@@ -75,5 +75,5 @@ public interface OrderMapper {
     public void updateOrder(UpdateOrderDto updateOrderDto);
 
     @Update("UPDATE ord_order SET status = #{status} WHERE id = #{id}")
-    public void updateOrderStatus(Long id, String status);
+    public void updateOrderStatus(@Param("id") Long id, @Param("status") String status);
 }
