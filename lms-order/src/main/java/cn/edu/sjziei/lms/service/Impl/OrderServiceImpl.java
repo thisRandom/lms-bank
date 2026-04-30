@@ -49,6 +49,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     public Result createOrder(CreateOrderDto createOrderDto, String token) {
+        // 参数校验
+        if (!orderNoUtil.inspectionP(createOrderDto.getShipperPhone())) {
+            return Result.error(400, "发货人手机号格式不正确");
+        }
+        if (!orderNoUtil.inspectionP(createOrderDto.getReceiverPhone())) {
+            return Result.error(400, "收货人手机号格式不正确");
+        }
+        if (createOrderDto.getWeight() == null || createOrderDto.getWeight().doubleValue() <= 0) {
+            return Result.error(400, "重量必须大于0");
+        }
+        if (createOrderDto.getVolume() != null && createOrderDto.getVolume().doubleValue() <= 0) {
+            return Result.error(400, "体积必须大于0");
+        }
+
         LoginVo loginVo = tokenUtil.analysisToken(token);
         String role = loginVo.getRole();
 
@@ -77,6 +91,22 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public Result updateOrder(UpdateOrderDto updateOrderDto, String token) {
+        // 参数校验
+        if (StrUtil.isNotEmpty(updateOrderDto.getShipperPhone()) &&
+                !orderNoUtil.inspectionP(updateOrderDto.getShipperPhone())) {
+            return Result.error(400, "发货人手机号格式不正确");
+        }
+        if (StrUtil.isNotEmpty(updateOrderDto.getReceiverPhone()) &&
+                !orderNoUtil.inspectionP(updateOrderDto.getReceiverPhone())) {
+            return Result.error(400, "收货人手机号格式不正确");
+        }
+        if (updateOrderDto.getWeight() != null && updateOrderDto.getWeight().doubleValue() <= 0) {
+            return Result.error(400, "重量必须大于0");
+        }
+        if (updateOrderDto.getVolume() != null && updateOrderDto.getVolume().doubleValue() <= 0) {
+            return Result.error(400, "体积必须大于0");
+        }
+
         LoginVo loginVo = tokenUtil.analysisToken(token);
         String role = loginVo.getRole();
         Long orderId = updateOrderDto.getId();

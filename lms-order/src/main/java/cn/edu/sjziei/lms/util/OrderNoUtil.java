@@ -23,4 +23,12 @@ public class OrderNoUtil {
         }
         return "ORD" + dateStr + String.format("%04d", seq);
     }
+
+    /**
+     * 检验手机号
+     * */
+    public boolean inspectionP(String phone){
+        String regex="^1[3-9]\\d{9}$";
+        return phone.matches(regex);
+    }
 }
