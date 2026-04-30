@@ -6,7 +6,9 @@ import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.service.OrderService;
 import cn.edu.sjziei.lms.util.TokenUtil;
 import cn.edu.sjziei.lms.vo.GetOrderVo;
+import cn.edu.sjziei.lms.vo.LoginVo;
 import cn.edu.sjziei.lms.vo.RecordVo;
+import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,13 @@ public class OrderServiceImpl implements OrderService {
     TokenUtil tokenUtil;
     public Result getOrderList(GetOrderDto getOrderDto, String token) {
         //分权
-//        tokenUtil.
+        LoginVo loginVo = tokenUtil.analysisToken(token);
+        String role = loginVo.getRole();
+        if(StrUtil.equals("DRIVER",role)){
+            //这里写逻辑把司机的id查出来
+        } else if (StrUtil.equals("CUSTOMER",role)) {
+            getOrderDto.setCustomerId(loginVo.getId());
+        }
 
         //查询数据
         PageHelper.startPage(getOrderDto.getPage(),getOrderDto.getSize());

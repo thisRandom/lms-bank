@@ -14,4 +14,5 @@ public class GetOrderDto {
     String status; //状态
     String startDate; //开始日期
     String endDate; //结束日期
+    Long customerId; //下单客户id
 }
