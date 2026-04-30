@@ -53,7 +53,7 @@ public class VehicleServiceImpl implements VehicleService {
         if (!vehicleUtil.verPlateNumber(addVehicleDto.getPlateNumber())) return Result.error(400, "车牌号不符合规则");
         if (!vehicleUtil.verVehicleType(addVehicleDto.getVehicleType())) return Result.error(400, "车辆类型不符合规则");
         if (!vehicleUtil.verLoadCapacity(addVehicleDto.getLoadCapacity())) return Result.error(400, "吨数不符合规则");
-
+        if (addVehicleDto.getVolume() < 0) return Result.error(400, "体积不合符规则");
         LoginVo loginVo = tokenUtil.analysisToken(token);
 
         if (!StrUtil.equals("DRIVER", userMapper.idToRole(addVehicleDto.getDriverId()))) {
@@ -75,6 +75,7 @@ public class VehicleServiceImpl implements VehicleService {
         if (dto.getLoadCapacity() != null) vehicle.setLoadCapacity(dto.getLoadCapacity());
         if (dto.getDriverId() != null) vehicle.setDriverId(dto.getDriverId());
         if (dto.getStatus() != null) vehicle.setStatus(dto.getStatus());
+        if (dto.getVolume() != null) vehicle.setVolume(dto.getVolume());
 
         vehicleMapper.update(vehicle);
         return Result.success(200, null);

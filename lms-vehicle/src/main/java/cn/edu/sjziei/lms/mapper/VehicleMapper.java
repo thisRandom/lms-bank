@@ -23,6 +23,7 @@ public interface VehicleMapper {
             "    v.status, " +
             "    v.last_location AS lastLocation, " +
             "    v.last_update_time AS lastUpdateTime " +
+            "    v.volume as volume" +
             "FROM veh_vehicle v " +
             "LEFT JOIN sys_user u ON v.driver_id = u.id " +
             "<where> " +
@@ -46,8 +47,8 @@ public interface VehicleMapper {
     @Select("SELECT COUNT(*) FROM veh_vehicle WHERE plate_number = #{plateNumber}")
     Integer countByPlateNumber(String plateNumber);
 
-    @Insert("INSERT INTO veh_vehicle (driver_id, plate_number, vehicle_type, load_capacity, status, create_time, update_time) " +
-            "VALUES (#{driverId}, #{plateNumber}, #{vehicleType}, #{loadCapacity}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO veh_vehicle (driver_id, plate_number, vehicle_type, load_capacity, status, volume,create_time, update_time) " +
+            "VALUES (#{driverId}, #{plateNumber}, #{vehicleType}, #{loadCapacity}, #{status},#{volume} NOW(), NOW())")
     void addVehicle(AddVehicleDto addVehicleDto);
 
     @Select("SELECT id FROM veh_vehicle WHERE plate_number = #{plateNumber} LIMIT 1")
@@ -62,6 +63,7 @@ public interface VehicleMapper {
             "<if test='loadCapacity != null'>, load_capacity = #{loadCapacity}</if>" +
             "<if test='driverId != null'>, driver_id = #{driverId}</if>" +
             "<if test='status != null'>, status = #{status}</if>" +
+            "<if test='volume != null'>, volume = #{volume}</if>" +
             " WHERE id = #{id}" +
             "</script>")
     int update(Vehicle vehicle);

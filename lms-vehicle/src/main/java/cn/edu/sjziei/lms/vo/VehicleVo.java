@@ -11,7 +11,8 @@ public class VehicleVo {
     Long id; //车辆id
     String plateNumber; //车牌号
     String vehicleType; //车辆类型
-    Double loadCapacity; //载重
+    Double loadCapacity; //载重（吨）
+    Double volume; //体积（方）
     Long driverId; //绑定司机ID
     String driverName; //司机姓名
     String driverPhone; //司机手机号

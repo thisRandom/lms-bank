@@ -14,6 +14,7 @@ public class Vehicle {
     String plateNumber;
     String vehicleType;
     BigDecimal loadCapacity;
+    Double volume;
     Long driverId;
     String status;
     String lastLocation;
