@@ -1,8 +1,7 @@
 package cn.edu.sjziei.lms.service;
 
-import cn.edu.sjziei.lms.common.result.Result;
+import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.dto.*;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 @Service

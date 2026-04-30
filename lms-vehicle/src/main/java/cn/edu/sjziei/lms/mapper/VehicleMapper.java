@@ -22,9 +22,9 @@ public interface VehicleMapper {
             "    u.phone AS driverPhone, " +
             "    v.status, " +
             "    v.last_location AS lastLocation, " +
-            "    v.last_update_time AS lastUpdateTime " +
+            "    v.last_update_time AS lastUpdateTime," +
             "    v.volume as volume" +
-            "FROM veh_vehicle v " +
+            " FROM veh_vehicle v " +
             "LEFT JOIN sys_user u ON v.driver_id = u.id " +
             "<where> " +
             "    <if test='status != null and status != \"\"'> " +
@@ -48,7 +48,7 @@ public interface VehicleMapper {
     Integer countByPlateNumber(String plateNumber);
 
     @Insert("INSERT INTO veh_vehicle (driver_id, plate_number, vehicle_type, load_capacity, status, volume,create_time, update_time) " +
-            "VALUES (#{driverId}, #{plateNumber}, #{vehicleType}, #{loadCapacity}, #{status},#{volume} NOW(), NOW())")
+            "VALUES (#{driverId}, #{plateNumber}, #{vehicleType}, #{loadCapacity}, #{status},#{volume},NOW(), NOW())")
     void addVehicle(AddVehicleDto addVehicleDto);
 
     @Select("SELECT id FROM veh_vehicle WHERE plate_number = #{plateNumber} LIMIT 1")

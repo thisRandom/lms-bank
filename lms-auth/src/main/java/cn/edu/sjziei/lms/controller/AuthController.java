@@ -1,11 +1,10 @@
 package cn.edu.sjziei.lms.controller;
 
-import cn.edu.sjziei.lms.common.annotation.RequiresPermissions;
-import cn.edu.sjziei.lms.common.result.Result;
-import cn.edu.sjziei.lms.common.dto.LoginDto;
-import cn.edu.sjziei.lms.common.dto.PasswordDto;
+import cn.edu.sjziei.lms.result.Result;
+import cn.edu.sjziei.lms.dto.LoginDto;
+import cn.edu.sjziei.lms.dto.PasswordDto;
 import cn.edu.sjziei.lms.service.AuthService;
-import cn.edu.sjziei.lms.common.util.TokenUtil;
+import cn.edu.sjziei.lms.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

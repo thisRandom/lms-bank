@@ -1,16 +1,13 @@
 package cn.edu.sjziei.lms.controller;
 
-import cn.edu.sjziei.lms.common.annotation.RequiresPermissions;
-import cn.edu.sjziei.lms.common.result.Result;
+import cn.edu.sjziei.lms.annotation.RequiresPermissions;
+import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.dto.AddVehicleDto;
 import cn.edu.sjziei.lms.dto.GetVehicleListDto;
 import cn.edu.sjziei.lms.dto.UpdateVehicleDto;
 import cn.edu.sjziei.lms.service.VehicleService;
-import cn.edu.sjziei.lms.vo.VehicleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/vehicles")

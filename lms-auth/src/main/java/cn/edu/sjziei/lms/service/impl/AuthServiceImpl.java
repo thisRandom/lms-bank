@@ -1,16 +1,16 @@
 package cn.edu.sjziei.lms.service.impl;
 
-import cn.edu.sjziei.lms.common.result.Result;
-import cn.edu.sjziei.lms.common.util.RedisUtil;
-import cn.edu.sjziei.lms.common.dto.LoginDto;
-import cn.edu.sjziei.lms.common.dto.PasswordDto;
+import cn.edu.sjziei.lms.result.Result;
+import cn.edu.sjziei.lms.util.RedisUtil;
+import cn.edu.sjziei.lms.dto.LoginDto;
+import cn.edu.sjziei.lms.dto.PasswordDto;
 import cn.edu.sjziei.lms.mapper.AuthMapper;
 import cn.edu.sjziei.lms.service.AuthService;
-import cn.edu.sjziei.lms.common.util.LoginUtil;
-import cn.edu.sjziei.lms.common.util.PasswordUtil;
-import cn.edu.sjziei.lms.common.util.TokenUtil;
-import cn.edu.sjziei.lms.common.vo.CurrentVo;
-import cn.edu.sjziei.lms.common.vo.LoginVo;
+import cn.edu.sjziei.lms.util.LoginUtil;
+import cn.edu.sjziei.lms.util.PasswordUtil;
+import cn.edu.sjziei.lms.util.TokenUtil;
+import cn.edu.sjziei.lms.vo.CurrentVo;
+import cn.edu.sjziei.lms.vo.LoginVo;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

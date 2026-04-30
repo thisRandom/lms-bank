@@ -1,6 +1,6 @@
 package cn.edu.sjziei.lms.mapper;
 
-import cn.edu.sjziei.lms.common.dto.ResetPasswordDto;
+import cn.edu.sjziei.lms.dto.ResetPasswordDto;
 import cn.edu.sjziei.lms.dto.AddUserDto;
 import cn.edu.sjziei.lms.dto.EDUserDto;
 import cn.edu.sjziei.lms.dto.EditUserDto;

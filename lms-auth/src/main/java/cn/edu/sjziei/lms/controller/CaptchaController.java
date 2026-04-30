@@ -1,7 +1,7 @@
 package cn.edu.sjziei.lms.controller;
 
-import cn.edu.sjziei.lms.common.result.Result;
-import cn.edu.sjziei.lms.common.util.RedisUtil;
+import cn.edu.sjziei.lms.result.Result;
+import cn.edu.sjziei.lms.util.RedisUtil;
 import com.wf.captcha.SpecCaptcha;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

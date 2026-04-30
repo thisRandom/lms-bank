@@ -1,7 +1,7 @@
 package cn.edu.sjziei.lms.controller;
 
-import cn.edu.sjziei.lms.common.annotation.RequiresPermissions;
-import cn.edu.sjziei.lms.common.result.Result;
+import cn.edu.sjziei.lms.annotation.RequiresPermissions;
+import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.dto.*;
 import cn.edu.sjziei.lms.service.UserService;
 import jakarta.validation.Valid;

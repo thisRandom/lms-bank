@@ -1,9 +1,9 @@
 package cn.edu.sjziei.lms.mapper;
 
-import cn.edu.sjziei.lms.common.dto.LoginDto;
+import cn.edu.sjziei.lms.dto.LoginDto;
 import cn.edu.sjziei.lms.entity.User;
-import cn.edu.sjziei.lms.common.vo.CurrentVo;
-import cn.edu.sjziei.lms.common.vo.LoginVo;
+import cn.edu.sjziei.lms.vo.CurrentVo;
+import cn.edu.sjziei.lms.vo.LoginVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

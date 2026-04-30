@@ -1,12 +1,11 @@
 package cn.edu.sjziei.lms.service.Impl;
 
-import cn.edu.sjziei.lms.common.dto.ResetPasswordDto;
-import cn.edu.sjziei.lms.common.util.RedisUtil;
-import cn.edu.sjziei.lms.common.vo.ResetPasswordVo;
-import cn.edu.sjziei.lms.common.result.Result;
-import cn.edu.sjziei.lms.common.util.PasswordUtil;
-import cn.edu.sjziei.lms.common.util.TokenUtil;
-import cn.edu.sjziei.lms.common.vo.LoginVo;
+import cn.edu.sjziei.lms.dto.ResetPasswordDto;
+import cn.edu.sjziei.lms.util.RedisUtil;
+import cn.edu.sjziei.lms.result.Result;
+import cn.edu.sjziei.lms.util.PasswordUtil;
+import cn.edu.sjziei.lms.util.TokenUtil;
+import cn.edu.sjziei.lms.vo.LoginVo;
 import cn.edu.sjziei.lms.dto.*;
 import cn.edu.sjziei.lms.mapper.UserMapper;
 import cn.edu.sjziei.lms.service.UserService;
@@ -14,7 +13,7 @@ import cn.edu.sjziei.lms.util.UserUtil;
 import cn.edu.sjziei.lms.vo.AddUserVo;
 import cn.edu.sjziei.lms.vo.GetListUsersVo;
 import cn.edu.sjziei.lms.vo.RecordVo;
-import cn.edu.sjziei.lms.common.util.LoginUtil;
+import cn.edu.sjziei.lms.util.LoginUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

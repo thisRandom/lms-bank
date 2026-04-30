@@ -1,8 +1,8 @@
 package cn.edu.sjziei.lms.service.Impl;
 
-import cn.edu.sjziei.lms.common.result.Result;
-import cn.edu.sjziei.lms.common.util.TokenUtil;
-import cn.edu.sjziei.lms.common.vo.LoginVo;
+import cn.edu.sjziei.lms.result.Result;
+import cn.edu.sjziei.lms.util.TokenUtil;
+import cn.edu.sjziei.lms.vo.LoginVo;
 import cn.edu.sjziei.lms.dto.AddVehicleDto;
 import cn.edu.sjziei.lms.dto.GetVehicleListDto;
 import cn.edu.sjziei.lms.dto.UpdateVehicleDto;
