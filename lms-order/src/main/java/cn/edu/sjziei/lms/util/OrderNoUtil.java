@@ -17,8 +17,9 @@ public class OrderNoUtil {
         String dateStr = sdf.format(new Date());
         String maxOrderNo = orderMapper.getMaxOrderNoByDate(dateStr);
         int seq = 1;
-        if (maxOrderNo != null && maxOrderNo.length() >= 13) {
-            String lastSeq = maxOrderNo.substring(9);
+        // ORD(3位) + yyyyMMdd(8位) = 11位，序号从第11位开始
+        if (maxOrderNo != null && maxOrderNo.length() >= 11) {
+            String lastSeq = maxOrderNo.substring(11);
             seq = Integer.parseInt(lastSeq) + 1;
         }
         return "ORD" + dateStr + String.format("%04d", seq);
