@@ -21,4 +21,13 @@ public interface LocationsMapper {
 
     @Select("select customer_id from ord_order where id=#{orderId}")
     Long getOrderToUserId(Long orderId);
+
+    @Select("select vehicle_id from dis_dispatch where id=#{driverId}")
+    Long selectVehId(Long driverId);
+
+    @Update("update veh_vehicle set last_location=#{location} where id=#{vehId}")
+    void updateVehLastLocation(@Param("vehId") Long vehId,@Param("location") String location);
+
+    @Update("update dis_dispatch set current_location=#{location} where id=#{id}")
+    void updateDiscurrentLocation(@Param("id")Long id,@Param("location") String location);
 }

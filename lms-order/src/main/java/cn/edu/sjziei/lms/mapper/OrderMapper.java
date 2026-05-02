@@ -16,7 +16,7 @@ public interface OrderMapper {
             "SELECT " +
             "  id, order_no, shipper_name, shipper_phone, shipper_address, " +
             "  receiver_name, receiver_phone, receiver_address, goods_type, " +
-            "  weight, volume, status, dispatch_id, create_time " +
+            "  weight, volume, status,  create_time " +
             "FROM ord_order " +
             "<where>" +
             "  <if test='orderNo != null and orderNo != \"\"'>" +

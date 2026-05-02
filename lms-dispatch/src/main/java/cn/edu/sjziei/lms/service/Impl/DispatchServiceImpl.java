@@ -71,6 +71,8 @@ public class DispatchServiceImpl implements DispatchService {
         Long id = dispatchMapper.getIdByDispatchNo(no);
         //改订单状态
         dispatchMapper.changeOrderStatus(createDispatchDto.getOrderId(),"DISPATCHED");
+        //修改车辆状态
+        dispatchMapper.updateVehStatus(createDispatchDto.getVehicleId(),"BUYS");
 
         return Result.success(200,new CreateDispatchVo(id,no));
     }

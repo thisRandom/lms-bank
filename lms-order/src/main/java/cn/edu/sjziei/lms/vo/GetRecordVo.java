@@ -20,6 +20,5 @@ public class GetRecordVo {
     Double weight; //重量
     Double volume; //体积
     String status; //状态
-    Long dispatchId; //调度单ID
     String createTime; //创建时间
 }

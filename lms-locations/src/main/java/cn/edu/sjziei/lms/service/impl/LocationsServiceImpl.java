@@ -39,6 +39,12 @@ public class LocationsServiceImpl implements LocationsService {
         if(dto.getRecordTime() == null){
             dto.setRecordTime(new Date());
         }
+        //先找到车辆id
+        Long VehId=locationsMapper.selectVehId(dto.getDispatchId());
+        //更新车辆表最后位置
+        locationsMapper.updateVehLastLocation(VehId,dto.getLocation());
+        //更新调度的当前位置
+        locationsMapper.updateDiscurrentLocation(dto.getDispatchId(),dto.getLocation());
 
         locationsMapper.reportLocation(dto);
         return Result.success(200, new ReportLocationVo(dto.getId()));

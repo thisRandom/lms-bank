@@ -110,4 +110,6 @@ public interface DispatchMapper {
             "LEFT JOIN sys_user u ON dd.driver_id = u.id " +
             "WHERE dd.id = #{id}")
     DispatchDetailVo getDispatchDetail(Long id);
+    @Update("update veh_vehicle set status=#{status} where id=#{vehicleId}")
+    void updateVehStatus(@Param("vehicleId") Long vehicleId,@Param("status") String status);
 }
