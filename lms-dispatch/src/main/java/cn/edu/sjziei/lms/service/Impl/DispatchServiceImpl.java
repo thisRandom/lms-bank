@@ -2,6 +2,7 @@ package cn.edu.sjziei.lms.service.Impl;
 
 import cn.edu.sjziei.lms.dto.CreateDispatchDto;
 import cn.edu.sjziei.lms.dto.GetDispatchListDto;
+import cn.edu.sjziei.lms.dto.SignDispatchDto;
 import cn.edu.sjziei.lms.mapper.DispatchMapper;
 import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.service.DispatchService;
@@ -72,5 +73,36 @@ public class DispatchServiceImpl implements DispatchService {
         dispatchMapper.changeOrderStatus(createDispatchDto.getOrderId(),"DISPATCHED");
 
         return Result.success(200,new CreateDispatchVo(id,no));
+    }
+
+    @Override
+    public Result getDispatchDetail(Long id, String token) {
+        LoginVo loginVo = tokenUtil.analysisToken(token);
+        String role = loginVo.getRole();
+        DispatchDetailVo detail = dispatchMapper.getDispatchDetail(id);
+        if(detail == null){
+            return Result.error(404,"调度不存在");
+        }
+        // DRIVER只能查看自己的调度
+        if(StrUtil.equals("DRIVER",role) && !detail.getDriverId().equals(loginVo.getId())){
+            return Result.error(403,"无权限查看此调度");
+        }
+        return Result.success(200,detail);
+    }
+
+    @Override
+    @Transactional
+    public Result signDispatch(Long id, String signName) {
+        String status = dispatchMapper.getDispatchStatus(id);
+        if(status == null){
+            return Result.error(404,"调度不存在");
+        }
+        if(!"ARRIVED".equals(status)){
+            return Result.error(400,"仅到达状态的调度可以签收");
+        }
+        dispatchMapper.signDispatch(id, signName);
+        Long orderId = dispatchMapper.getOrderIdByDispatchId(id);
+        dispatchMapper.changeOrderStatus(orderId, "SIGNED");
+        return Result.success(200,null);
     }
 }

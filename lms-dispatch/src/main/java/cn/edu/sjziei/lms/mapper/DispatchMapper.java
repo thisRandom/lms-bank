@@ -3,6 +3,7 @@ package cn.edu.sjziei.lms.mapper;
 import cn.edu.sjziei.lms.dto.CreateDispatchDto;
 import cn.edu.sjziei.lms.dto.GetDispatchListDto;
 import cn.edu.sjziei.lms.vo.DisPatchListVo;
+import cn.edu.sjziei.lms.vo.DispatchDetailVo;
 import cn.edu.sjziei.lms.vo.GetOrderByIdVo;
 import cn.edu.sjziei.lms.vo.GetVehicleByIdVo;
 import jakarta.validation.constraints.NotNull;
@@ -66,6 +67,41 @@ public interface DispatchMapper {
     @Select("SELECT dispatch_no FROM dis_dispatch WHERE dispatch_no LIKE CONCAT('DIS', #{date}, '%') ORDER BY dispatch_no DESC LIMIT 1")
     String getMaxNoByDate(String dateStr);
 
+    @Select("SELECT status FROM dis_dispatch WHERE id = #{id}")
+    String getDispatchStatus(Long id);
+
+    @Update("UPDATE dis_dispatch SET status = 'SIGNED', sign_name = #{signName}, update_time = NOW() WHERE id = #{id}")
+    void signDispatch(@Param("id") Long id, @Param("signName") String signName);
+
+    @Select("SELECT order_id FROM dis_dispatch WHERE id = #{id}")
+    Long getOrderIdByDispatchId(Long id);
+
     @Update("UPDATE ord_order SET status = #{status}, update_time = NOW() WHERE id = #{orderId}")
     void changeOrderStatus( @Param("orderId") Long orderId, @Param("status") String status);
+
+    @Select("SELECT " +
+            "dd.id, " +
+            "dd.dispatch_no, " +
+            "dd.order_id, " +
+            "o.order_no, " +
+            "dd.vehicle_id, " +
+            "v.plate_number, " +
+            "dd.driver_id, " +
+            "u.real_name as driver_name, " +
+            "u.phone as driver_phone, " +
+            "dd.status, " +
+            "dd.current_location, " +
+            "dd.estimated_departure_time, " +
+            "dd.estimated_arrival_time, " +
+            "dd.actual_departure_time, " +
+            "dd.actual_arrival_time, " +
+            "dd.sign_name, " +
+            "dd.remark, " +
+            "dd.create_time " +
+            "FROM dis_dispatch dd " +
+            "LEFT JOIN ord_order o ON dd.order_id = o.id " +
+            "LEFT JOIN veh_vehicle v ON dd.vehicle_id = v.id " +
+            "LEFT JOIN sys_user u ON dd.driver_id = u.id " +
+            "WHERE dd.id = #{id}")
+    DispatchDetailVo getDispatchDetail(Long id);
 }
