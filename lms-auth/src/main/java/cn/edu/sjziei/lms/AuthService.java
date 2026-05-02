@@ -1,4 +1,4 @@
-package cn.edu.sjziei.lms.service;
+package cn.edu.sjziei.lms;
 
 import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.dto.LoginDto;

@@ -1,11 +1,11 @@
-package cn.edu.sjziei.lms.service.impl;
+package cn.edu.sjziei.lms.impl;
 
 import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.util.RedisUtil;
 import cn.edu.sjziei.lms.dto.LoginDto;
 import cn.edu.sjziei.lms.dto.PasswordDto;
 import cn.edu.sjziei.lms.mapper.AuthMapper;
-import cn.edu.sjziei.lms.service.AuthService;
+import cn.edu.sjziei.lms.AuthService;
 import cn.edu.sjziei.lms.util.LoginUtil;
 import cn.edu.sjziei.lms.util.PasswordUtil;
 import cn.edu.sjziei.lms.util.TokenUtil;

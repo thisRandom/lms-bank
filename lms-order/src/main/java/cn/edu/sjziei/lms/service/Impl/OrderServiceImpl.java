@@ -31,12 +31,13 @@ public class OrderServiceImpl implements OrderService {
     OrderNoUtil orderNoUtil;
 
     public Result getOrderList(GetOrderDto getOrderDto, String token) {
+        getOrderDto.setPage(getOrderDto.getPage()==null?1:getOrderDto.getPage());
+        getOrderDto.setSize(getOrderDto.getSize()==null?10:getOrderDto.getSize());
+
         //分权
         LoginVo loginVo = tokenUtil.analysisToken(token);
         String role = loginVo.getRole();
-        if(StrUtil.equals("DRIVER",role)){
-            //这里写逻辑把司机的id查出来
-        } else if (StrUtil.equals("CUSTOMER",role)) {
+        if (StrUtil.equals("CUSTOMER",role)) {
             getOrderDto.setCustomerId(loginVo.getId());
         }
 

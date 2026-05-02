@@ -13,4 +13,7 @@ public class GetIdVehiclesVo {
     String vehicleType; //车辆类型
     Double loadCapacity; //载重
     String driverName; //司机姓名
+    String lastLocation; //最后位置
+    Long driverId; //司机id
+    Double volume;//体积
 }

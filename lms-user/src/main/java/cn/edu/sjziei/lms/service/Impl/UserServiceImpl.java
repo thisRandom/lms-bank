@@ -40,6 +40,9 @@ public class UserServiceImpl implements UserService {
 
 
     public Result getListUsers(GetListUsersDto getListUsersDto, String token) {
+        getListUsersDto.setPage(getListUsersDto.getPage()==null?1:getListUsersDto.getPage());
+        getListUsersDto.setSize(getListUsersDto.getSize()==null?10:getListUsersDto.getSize());
+
         //解析出来是管理员还是调度员,如果是调度员true
         String role = tokenUtil.analysisToken(token).getRole();
         if (StrUtil.equals("DISPATCHER", role)) getListUsersDto.setBool(true);

@@ -3,7 +3,7 @@ package cn.edu.sjziei.lms.controller;
 import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.dto.LoginDto;
 import cn.edu.sjziei.lms.dto.PasswordDto;
-import cn.edu.sjziei.lms.service.AuthService;
+import cn.edu.sjziei.lms.AuthService;
 import cn.edu.sjziei.lms.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

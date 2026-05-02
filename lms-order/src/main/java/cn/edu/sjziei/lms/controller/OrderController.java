@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 /**
  * 订单模块
- * */
+ *
+ */
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -26,39 +28,46 @@ public class OrderController {
 
     /**
      * 获取列表
-     * */
+     *
+     */
     @GetMapping
-        public Result getOrderList(GetOrderDto getOrderDto,@RequestHeader("Authorization") String token){
-        return orderService.getOrderList(getOrderDto,token);
+    @RequiresPermissions({"ADMIN", "CUSTOMER","DISPATCHER"})
+    public Result getOrderList(GetOrderDto getOrderDto, @RequestHeader("Authorization") String token) {
+        return orderService.getOrderList(getOrderDto, token);
     }
 
     /**
      * 创建订单
-     * */
+     *
+     */
     @PostMapping
-    @RequiresPermissions({"ADMIN","CUSTOMER"})
-    public Result createOrder(@RequestBody CreateOrderDto createOrderDto, @RequestHeader("Authorization") String token){
+    @RequiresPermissions({"ADMIN", "CUSTOMER"})
+    public Result createOrder(@RequestBody CreateOrderDto createOrderDto, @RequestHeader("Authorization") String token) {
         return orderService.createOrder(createOrderDto, token);
     }
 
     /**
      * 编辑订单
-     * */
+     *
+     */
     @PutMapping("/{id}")
-    @RequiresPermissions({"ADMIN","DISPATCHER","CUSTOMER"})
-    public Result updateOrder(@PathVariable("id") Long id, @RequestBody UpdateOrderDto updateOrderDto, @RequestHeader("Authorization") String token){
+    @RequiresPermissions({"ADMIN", "DISPATCHER", "CUSTOMER"})
+    public Result updateOrder(@PathVariable("id") Long id, @RequestBody UpdateOrderDto updateOrderDto, @RequestHeader("Authorization") String token) {
         updateOrderDto.setId(id);
         return orderService.updateOrder(updateOrderDto, token);
     }
 
     /**
      * 取消订单
-     * */
+     *
+     */
     @PutMapping("/{id}/cancel")
-    @RequiresPermissions({"ADMIN","DISPATCHER","CUSTOMER"})
-    public Result cancelOrder(@PathVariable("id") Long id, @RequestHeader("Authorization") String token){
+    @RequiresPermissions({"ADMIN", "DISPATCHER", "CUSTOMER"})
+    public Result cancelOrder(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
         return orderService.cancelOrder(id, token);
     }
 
-
+    /**
+     * 订单详情
+     * */
 }

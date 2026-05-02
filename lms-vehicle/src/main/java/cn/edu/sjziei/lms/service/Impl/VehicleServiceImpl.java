@@ -37,6 +37,9 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Result getVehicleList(GetVehicleListDto getVehicleListDto, String token) {
+        getVehicleListDto.setPage(getVehicleListDto.getPage()==null?1:getVehicleListDto.getPage());
+        getVehicleListDto.setSize(getVehicleListDto.getSize()==null?10:getVehicleListDto.getSize());
+
         LoginVo loginVo = tokenUtil.analysisToken(token);
         String role = loginVo.getRole();
         if (StrUtil.equals("DRIVER", role)) {

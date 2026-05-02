@@ -40,9 +40,8 @@ public class VehicleController {
     }
 
     @GetMapping("/idle")
-    @RequiresPermissions({"ADMIN", "DISPATCHER"})
+    @RequiresPermissions({ "DISPATCHER"})
     public Result getIdleVehicles() {
-
         return vehicleService.getIdleVehicles();
     }
 }
