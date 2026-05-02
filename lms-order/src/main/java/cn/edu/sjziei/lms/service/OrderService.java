@@ -15,4 +15,6 @@ public interface OrderService {
     public Result updateOrder(UpdateOrderDto updateOrderDto, String token);
 
     public Result cancelOrder(Long id, String token);
+
+    Result orderDetails(Long id, String token);
 }

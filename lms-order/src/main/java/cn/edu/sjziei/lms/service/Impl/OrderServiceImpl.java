@@ -8,10 +8,7 @@ import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.service.OrderService;
 import cn.edu.sjziei.lms.util.OrderNoUtil;
 import cn.edu.sjziei.lms.util.TokenUtil;
-import cn.edu.sjziei.lms.vo.CreateOrderVo;
-import cn.edu.sjziei.lms.vo.GetOrderVo;
-import cn.edu.sjziei.lms.vo.LoginVo;
-import cn.edu.sjziei.lms.vo.GetRecordVo;
+import cn.edu.sjziei.lms.vo.*;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -20,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -160,5 +158,21 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return Result.error(400, "无法取消此订单");
+    }
+
+    @Override
+    public Result orderDetails(Long id, String token) {
+        LoginVo loginVo = tokenUtil.analysisToken(token);
+        //验证跟自己有没有关系
+        if ("DRIVER".equals(loginVo.getRole())) {
+            if (!Objects.equals(loginVo.getId(),orderMapper.orderIdToDispatchToDriver(id))) return Result.error(400,"没有权限");
+        } else if ("CUSTOMER".equals(loginVo.getRole())) {
+            Long customerId=orderMapper.customerIdByOrderId(id);
+            if(!Objects.equals(loginVo.getId(),customerId)) return Result.error(400,"没有权限");
+        }
+        OrderDetailsVo orderDetailsVo=orderMapper.orderDetails(id);
+        DispatchVo dispatchVo=orderMapper.orderIdToDispatch(id);
+        orderDetailsVo.setDispatch(dispatchVo);
+        return Result.success(200,orderDetailsVo);
     }
 }

@@ -70,4 +70,8 @@ public class OrderController {
     /**
      * 订单详情
      * */
+    @GetMapping("/{id}")
+    public Result orderDetails(@PathVariable("id") Long id, @RequestHeader("Authorization") String token){
+        return orderService.orderDetails(id,token);
+    }
 }

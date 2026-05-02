@@ -3,7 +3,9 @@ package cn.edu.sjziei.lms.mapper;
 import cn.edu.sjziei.lms.dto.CreateOrderDto;
 import cn.edu.sjziei.lms.dto.GetOrderDto;
 import cn.edu.sjziei.lms.dto.UpdateOrderDto;
+import cn.edu.sjziei.lms.vo.DispatchVo;
 import cn.edu.sjziei.lms.vo.GetRecordVo;
+import cn.edu.sjziei.lms.vo.OrderDetailsVo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -75,4 +77,28 @@ public interface OrderMapper {
 
     @Update("UPDATE ord_order SET status = #{status} WHERE id = #{id}")
     public void updateOrderStatus(@Param("id") Long id, @Param("status") String status);
+
+    @Select("select * from ord_order where id=#{id}")
+    public OrderDetailsVo orderDetails(Long id);
+
+    @Select("SELECT " +
+            "d.id, " +
+            "d.dispatch_no AS dispatchNo, " +
+            "v.plate_number AS plateNumber, " +
+            "u.real_name AS driverName, " +
+            "u.phone AS driverPhone, " +
+            "d.status, " +
+            "d.current_location AS currentLocation " +
+            "FROM dis_dispatch d " +
+            "LEFT JOIN `ord_order` o ON d.order_id = o.id " +
+            "LEFT JOIN veh_vehicle v ON d.vehicle_id = v.id " +
+            "LEFT JOIN sys_user u ON d.driver_id = u.id " +
+            "WHERE order_id=#{orderId}")
+    public DispatchVo orderIdToDispatch(Long orderId);
+
+    @Select("select driver_id from dis_dispatch where order_id=#{dispatchId}")
+    public Long orderIdToDispatchToDriver(Long dispatchId);
+
+    @Select("select customer_id from ord_order where id=#{id}")
+    public Long customerIdByOrderId(Long id);
 }
