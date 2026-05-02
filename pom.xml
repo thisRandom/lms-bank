@@ -18,6 +18,7 @@
         <module>lms-order</module>
         <module>lms-dispatch</module>
         <module>lms-app</module>
+        <module>lms-locations</module>
     </modules>
 
     <properties>
@@ -119,6 +120,11 @@
             <dependency>
                 <groupId>cn.edu.sjziei</groupId>
                 <artifactId>lms-location</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.edu.sjziei</groupId>
+                <artifactId>lms-locations</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

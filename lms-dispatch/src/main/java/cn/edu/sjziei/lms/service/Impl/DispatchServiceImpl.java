@@ -105,4 +105,43 @@ public class DispatchServiceImpl implements DispatchService {
         dispatchMapper.changeOrderStatus(orderId, "SIGNED");
         return Result.success(200,null);
     }
+
+    @Override
+    @Transactional
+    public Result updateDispatchStatus(Long id, String status, String token) {
+        LoginVo loginVo = tokenUtil.analysisToken(token);
+        String role = loginVo.getRole();
+
+        String currentStatus = dispatchMapper.getDispatchStatus(id);
+        if(currentStatus == null){
+            return Result.error(404,"调度不存在");
+        }
+
+        // DRIVER只能更新自己的调度
+        if(StrUtil.equals("DRIVER", role)){
+            Long driverId = dispatchMapper.getDriverIdByDispatchId(id);
+            if(!driverId.equals(loginVo.getId())){
+                return Result.error(403,"无权限更新此调度");
+            }
+        }
+
+        // 状态流转校验
+        if("ASSIGNED".equals(currentStatus) && "IN_TRANSIT".equals(status)){
+            // 可以出发
+        }else if("IN_TRANSIT".equals(currentStatus) && "ARRIVED".equals(status)){
+            // 可以到达
+        }else{
+            return Result.error(400,"当前状态不允许转为"+status);
+        }
+
+        dispatchMapper.updateDispatchStatus(id, status);
+
+        // IN_TRANSIT, ARRIVED 同步到订单表
+        if("IN_TRANSIT".equals(status) || "ARRIVED".equals(status)){
+            Long orderId = dispatchMapper.getOrderIdByDispatchId(id);
+            dispatchMapper.changeOrderStatus(orderId, status);
+        }
+
+        return Result.success(200,null);
+    }
 }

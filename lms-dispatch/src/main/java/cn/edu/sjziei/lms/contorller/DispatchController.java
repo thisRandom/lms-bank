@@ -4,6 +4,7 @@ import cn.edu.sjziei.lms.annotation.RequiresPermissions;
 import cn.edu.sjziei.lms.dto.CreateDispatchDto;
 import cn.edu.sjziei.lms.dto.GetDispatchListDto;
 import cn.edu.sjziei.lms.dto.SignDispatchDto;
+import cn.edu.sjziei.lms.dto.UpdateDispatchStatusDto;
 import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.service.DispatchService;
 import jakarta.validation.Valid;
@@ -44,5 +45,11 @@ public class DispatchController {
     @RequiresPermissions({"CUSTOMER"})
     public Result signDispatch(@PathVariable("id") Long id, @Valid @RequestBody SignDispatchDto signDispatchDto){
         return dispatchService.signDispatch(id, signDispatchDto.getSignName());
+    }
+
+    @PutMapping("/{id}/status")
+    @RequiresPermissions({"DISPATCHER","DRIVER"})
+    public Result updateDispatchStatus(@PathVariable("id") Long id, @Valid @RequestBody UpdateDispatchStatusDto dto, @RequestHeader("Authorization") String token){
+        return dispatchService.updateDispatchStatus(id, dto.getStatus(), token);
     }
 }

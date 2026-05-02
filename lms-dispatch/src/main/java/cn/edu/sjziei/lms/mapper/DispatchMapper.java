@@ -76,6 +76,12 @@ public interface DispatchMapper {
     @Select("SELECT order_id FROM dis_dispatch WHERE id = #{id}")
     Long getOrderIdByDispatchId(Long id);
 
+    @Select("SELECT driver_id FROM dis_dispatch WHERE id = #{id}")
+    Long getDriverIdByDispatchId(Long id);
+
+    @Update("UPDATE dis_dispatch SET status = #{status}, update_time = NOW() WHERE id = #{id}")
+    void updateDispatchStatus(@Param("id") Long id, @Param("status") String status);
+
     @Update("UPDATE ord_order SET status = #{status}, update_time = NOW() WHERE id = #{orderId}")
     void changeOrderStatus( @Param("orderId") Long orderId, @Param("status") String status);
 

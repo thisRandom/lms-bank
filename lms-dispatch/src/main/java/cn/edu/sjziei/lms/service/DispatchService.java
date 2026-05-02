@@ -15,4 +15,6 @@ public interface DispatchService {
     Result getDispatchDetail(Long id, String token);
 
     Result signDispatch(Long id, String signName);
+
+    Result updateDispatchStatus(Long id, String status, String token);
 }
