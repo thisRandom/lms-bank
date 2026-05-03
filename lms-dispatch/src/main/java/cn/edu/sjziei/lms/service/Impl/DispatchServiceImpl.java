@@ -143,7 +143,7 @@ public class DispatchServiceImpl implements DispatchService {
             // 可以到达
             actualArrivalTime=true;
             //车辆状态变为空闲(需要车辆id)
-            dispatchMapper.updateVehStatus(entity.getVehicleId(), "ASSIGNED");
+            dispatchMapper.updateVehStatus(entity.getVehicleId(), "IDLE");
         }else{
             return Result.error(400,"当前状态不允许转为"+status);
         }

@@ -16,7 +16,6 @@ public class DispatchLocationsController {
     LocationsService locationsService;
 
     @GetMapping("/{dispatchId}/locations")
-    @RequiresPermissions({"DISPATCHER","DRIVER","CUSTOMER"})
     public Result getDispatchLocations(@PathVariable("dispatchId") Long dispatchId, @RequestHeader("Authorization") String token){
         return locationsService.getDispatchLocations(dispatchId, token);
     }

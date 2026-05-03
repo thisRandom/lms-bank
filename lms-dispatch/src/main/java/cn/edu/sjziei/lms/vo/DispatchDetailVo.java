@@ -26,4 +26,11 @@ public class DispatchDetailVo {
     String signName; // 签收人
     String remark; // 备注
     String createTime; // 创建时间
+    String shipperName; //发货人姓名
+    String shipperPhone; //发货人电话
+    String shipperAddress; //发货人详细地址
+    String receiverName; //发货人姓名
+    String receiverPhone; //发货人电话
+    String receiverAddress; //发货人详细地址
+    String goodsType; //货物类型
 }
