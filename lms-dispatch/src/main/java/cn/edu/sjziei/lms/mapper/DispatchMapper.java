@@ -2,6 +2,7 @@ package cn.edu.sjziei.lms.mapper;
 
 import cn.edu.sjziei.lms.dto.CreateDispatchDto;
 import cn.edu.sjziei.lms.dto.GetDispatchListDto;
+import cn.edu.sjziei.lms.entity.DispatchEntity;
 import cn.edu.sjziei.lms.vo.DisPatchListVo;
 import cn.edu.sjziei.lms.vo.DispatchDetailVo;
 import cn.edu.sjziei.lms.vo.GetOrderByIdVo;
@@ -67,8 +68,8 @@ public interface DispatchMapper {
     @Select("SELECT dispatch_no FROM dis_dispatch WHERE dispatch_no LIKE CONCAT('DIS', #{date}, '%') ORDER BY dispatch_no DESC LIMIT 1")
     String getMaxNoByDate(String dateStr);
 
-    @Select("SELECT status FROM dis_dispatch WHERE id = #{id}")
-    String getDispatchStatus(Long id);
+    @Select("SELECT * FROM dis_dispatch WHERE id = #{id}")
+    DispatchEntity getDispatchById(Long id);
 
     @Update("UPDATE dis_dispatch SET status = 'SIGNED', sign_name = #{signName}, update_time = NOW() WHERE id = #{id}")
     void signDispatch(@Param("id") Long id, @Param("signName") String signName);
@@ -79,8 +80,13 @@ public interface DispatchMapper {
     @Select("SELECT driver_id FROM dis_dispatch WHERE id = #{id}")
     Long getDriverIdByDispatchId(Long id);
 
-    @Update("UPDATE dis_dispatch SET status = #{status}, update_time = NOW() WHERE id = #{id}")
-    void updateDispatchStatus(@Param("id") Long id, @Param("status") String status);
+    @Update("<script>" +
+            "UPDATE dis_dispatch SET status = #{status}, update_time = NOW()" +
+            "<if test='actualDepartureTime == true'>, actual_departure_time = NOW()</if>" +
+            "<if test='actualArrivalTime == true'>, actual_arrival_time = NOW()</if>" +
+            " WHERE id = #{id}" +
+            "</script>")
+    void updateDispatchStatus(@Param("id") Long id, @Param("status") String status,@Param("actualDepartureTime") Boolean actualDepartureTime,@Param("actualArrivalTime") Boolean actualArrivalTime);
 
     @Update("UPDATE ord_order SET status = #{status}, update_time = NOW() WHERE id = #{orderId}")
     void changeOrderStatus( @Param("orderId") Long orderId, @Param("status") String status);
@@ -110,6 +116,10 @@ public interface DispatchMapper {
             "LEFT JOIN sys_user u ON dd.driver_id = u.id " +
             "WHERE dd.id = #{id}")
     DispatchDetailVo getDispatchDetail(Long id);
+
     @Update("update veh_vehicle set status=#{status} where id=#{vehicleId}")
     void updateVehStatus(@Param("vehicleId") Long vehicleId,@Param("status") String status);
+
+    @Select("select status from sys_user where id=#{driverId}")
+    Long getDriverStatusById(@Param("driverId") Long driverId);
 }

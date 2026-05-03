@@ -77,6 +77,6 @@ public interface VehicleMapper {
     @Select("SELECT v.*, u.real_name AS driverName " +
             "FROM veh_vehicle v " +
             "LEFT JOIN sys_user u ON v.driver_id = u.id " +
-            "WHERE v.status = 'IDLE'")
+            "WHERE v.status = 'IDLE' and u.status=1")
     List<GetIdVehiclesVo> selectIdleVehicles();
 }

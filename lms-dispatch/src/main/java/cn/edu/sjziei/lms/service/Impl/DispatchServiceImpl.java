@@ -3,6 +3,7 @@ package cn.edu.sjziei.lms.service.Impl;
 import cn.edu.sjziei.lms.dto.CreateDispatchDto;
 import cn.edu.sjziei.lms.dto.GetDispatchListDto;
 import cn.edu.sjziei.lms.dto.SignDispatchDto;
+import cn.edu.sjziei.lms.entity.DispatchEntity;
 import cn.edu.sjziei.lms.mapper.DispatchMapper;
 import cn.edu.sjziei.lms.result.Result;
 import cn.edu.sjziei.lms.service.DispatchService;
@@ -55,6 +56,9 @@ public class DispatchServiceImpl implements DispatchService {
         GetOrderByIdVo orderById = dispatchMapper.getOrderById(createDispatchDto.getOrderId());
         if (orderById.getVolume()==null) return Result.error(400,"订单不存在");
         if(!"PENDING".equals(orderById.getStatus())) return Result.error(400,"订单异常");
+        //验证司机是否被禁用了
+        Long driverStatus = dispatchMapper.getDriverStatusById(createDispatchDto.getDriverId());
+        if (driverStatus==0L) return Result.error(400,"该司机已被禁用");
         //车辆id是否存在车辆不在，并且绑定的司机id是否与司机id一致
         GetVehicleByIdVo vehicleById = dispatchMapper.getVehicleById(createDispatchDto.getVehicleId());
         if(vehicleById.getDriverId()==null) return Result.error(400,"车辆不存在");
@@ -95,7 +99,7 @@ public class DispatchServiceImpl implements DispatchService {
     @Override
     @Transactional
     public Result signDispatch(Long id, String signName) {
-        String status = dispatchMapper.getDispatchStatus(id);
+        String status = dispatchMapper.getDispatchById(id).getStatus();
         if(status == null){
             return Result.error(404,"调度不存在");
         }
@@ -114,29 +118,38 @@ public class DispatchServiceImpl implements DispatchService {
         LoginVo loginVo = tokenUtil.analysisToken(token);
         String role = loginVo.getRole();
 
-        String currentStatus = dispatchMapper.getDispatchStatus(id);
+        DispatchEntity entity = dispatchMapper.getDispatchById(id);
+        String currentStatus = entity.getStatus();
         if(currentStatus == null){
             return Result.error(404,"调度不存在");
         }
 
         // DRIVER只能更新自己的调度
         if(StrUtil.equals("DRIVER", role)){
-            Long driverId = dispatchMapper.getDriverIdByDispatchId(id);
+            Long driverId = entity.getDriverId();
             if(!driverId.equals(loginVo.getId())){
                 return Result.error(403,"无权限更新此调度");
             }
         }
-
+        //实际发车时间
+        Boolean actualDepartureTime=false;
+        Boolean actualArrivalTime=false;
         // 状态流转校验
         if("ASSIGNED".equals(currentStatus) && "IN_TRANSIT".equals(status)){
             // 可以出发
+            actualDepartureTime=true;
+
         }else if("IN_TRANSIT".equals(currentStatus) && "ARRIVED".equals(status)){
             // 可以到达
+            actualArrivalTime=true;
+            //车辆状态变为空闲(需要车辆id)
+            dispatchMapper.updateVehStatus(entity.getVehicleId(), "ASSIGNED");
         }else{
             return Result.error(400,"当前状态不允许转为"+status);
         }
 
-        dispatchMapper.updateDispatchStatus(id, status);
+        //这个变成了哪个更新了就存入哪个
+        dispatchMapper.updateDispatchStatus(id, status,actualDepartureTime,actualArrivalTime);
 
         // IN_TRANSIT, ARRIVED 同步到订单表
         if("IN_TRANSIT".equals(status) || "ARRIVED".equals(status)){
