@@ -30,4 +30,6 @@ public interface LocationsMapper {
 
     @Update("update dis_dispatch set current_location=#{location} where id=#{id}")
     void updateDiscurrentLocation(@Param("id")Long id,@Param("location") String location);
+    @Select("select status from dis_dispatch where id=#{dispatchId}")
+    String getOrderStatusById(@Param("dispatchId") Long dispatchId);
 }
