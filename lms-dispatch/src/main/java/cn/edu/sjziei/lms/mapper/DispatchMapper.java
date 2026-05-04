@@ -116,7 +116,7 @@ public interface DispatchMapper {
             "o.receiver_name, "+
             "o.receiver_phone, "+
             "o.receiver_address, "+
-            "o.goods_type"+
+            "o.goods_type "+
             "FROM dis_dispatch dd " +
             "LEFT JOIN ord_order o ON dd.order_id = o.id " +
             "LEFT JOIN veh_vehicle v ON dd.vehicle_id = v.id " +

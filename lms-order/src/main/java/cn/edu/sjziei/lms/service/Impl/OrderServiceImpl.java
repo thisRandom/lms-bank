@@ -90,6 +90,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public Result updateOrder(UpdateOrderDto updateOrderDto, String token) {
+        //校验订单状态（已签收，已到达，已取消不能编辑）
+        String status = orderMapper.getOrderStatusById(updateOrderDto.getId());
+        if ("ARRIVED".equals(status) || "SIGNED".equals(status) || "CANCELLED".equals(status)) {
+            return Result.success(400,"不能修改此订单");
+        }
+
         // 参数校验
         if (StrUtil.isNotEmpty(updateOrderDto.getShipperPhone()) &&
                 !orderNoUtil.inspectionP(updateOrderDto.getShipperPhone())) {
@@ -111,7 +117,6 @@ public class OrderServiceImpl implements OrderService {
         Long orderId = updateOrderDto.getId();
 
         // 获取订单状态和客户ID
-        String status = orderMapper.getOrderStatusById(orderId);
         Long orderCustomerId = orderMapper.getOrderCustomerIdById(orderId);
 
         // 权限校验
