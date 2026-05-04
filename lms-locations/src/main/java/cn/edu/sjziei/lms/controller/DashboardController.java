@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 可视化部分
  * */
 @RestController
-@RequestMapping("/dispatches")
+@RequestMapping("/dashboard")
 public class DashboardController {
     @Autowired
     DashboardService dashboardService;
