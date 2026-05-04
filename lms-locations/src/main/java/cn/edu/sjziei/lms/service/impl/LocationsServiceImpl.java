@@ -25,6 +25,12 @@ public class LocationsServiceImpl implements LocationsService {
 
     @Override
     public Result reportLocation(ReportLocationDto dto, String token) {
+        //看状态
+        String status = locationsMapper.getOrderStatusById(dto.getDispatchId());
+        if ("ARRIVED".equals(status) || "SIGNED".equals(status) ) {
+            return Result.success(400,"此订单不可在上传轨迹");
+        }
+
         LoginVo loginVo = tokenUtil.analysisToken(token);
         String role = loginVo.getRole();
 
@@ -52,11 +58,7 @@ public class LocationsServiceImpl implements LocationsService {
 
     @Override
     public Result getDispatchLocations(Long dispatchId, String token) {
-        //看状态
-        String status = locationsMapper.getOrderStatusById(dispatchId);
-        if ("ARRIVED".equals(status) || "SIGNED".equals(status) ) {
-            return Result.success(400,"此订单不可在上传轨迹");
-        }
+
 
         LoginVo loginVo = tokenUtil.analysisToken(token);
         String role = loginVo.getRole();

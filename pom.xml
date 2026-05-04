@@ -5,7 +5,7 @@
 
     <groupId>cn.edu.sjziei</groupId>
     <artifactId>lms_bank</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>Logistics Management System</name>
     <description>物流管理系统</description>

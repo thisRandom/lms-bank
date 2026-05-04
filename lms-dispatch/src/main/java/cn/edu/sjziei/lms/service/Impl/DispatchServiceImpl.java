@@ -52,6 +52,9 @@ public class DispatchServiceImpl implements DispatchService {
     @Override
     @Transactional //事务
     public Result createDispatch(CreateDispatchDto createDispatchDto) {
+        if (!createDispatchDto.getEstimatedArrivalTime().isAfter(createDispatchDto.getEstimatedDepartureTime())) {
+            return Result.error(400, "到达时间必须晚于出发时间");
+        }
         //先检验订单id是否存在，并且得到载重和体积
         GetOrderByIdVo orderById = dispatchMapper.getOrderById(createDispatchDto.getOrderId());
         if (orderById.getVolume()==null) return Result.error(400,"订单不存在");
@@ -76,7 +79,7 @@ public class DispatchServiceImpl implements DispatchService {
         //改订单状态
         dispatchMapper.changeOrderStatus(createDispatchDto.getOrderId(),"DISPATCHED");
         //修改车辆状态
-        dispatchMapper.updateVehStatus(createDispatchDto.getVehicleId(),"BUYS");
+        dispatchMapper.updateVehStatus(createDispatchDto.getVehicleId(),"BUSY");
 
         return Result.success(200,new CreateDispatchVo(id,no));
     }
