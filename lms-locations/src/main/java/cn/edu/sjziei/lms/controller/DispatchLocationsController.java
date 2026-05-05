@@ -6,15 +6,15 @@ import cn.edu.sjziei.lms.service.LocationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * 调度轨迹查询
- * */
 @RestController
 @RequestMapping("/dispatches")
 public class DispatchLocationsController {
     @Autowired
     LocationsService locationsService;
 
+    /**
+     * 调度轨迹查询
+     * */
     @GetMapping("/{dispatchId}/locations")
     public Result getDispatchLocations(@PathVariable("dispatchId") Long dispatchId, @RequestHeader("Authorization") String token){
         return locationsService.getDispatchLocations(dispatchId, token);

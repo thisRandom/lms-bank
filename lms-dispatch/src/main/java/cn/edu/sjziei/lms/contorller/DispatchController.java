@@ -29,24 +29,36 @@ public class DispatchController {
         return dispatchService.getDispatchList(getDispatchListDto,token);
     }
 
+    /**
+     * 创建调度
+     * */
     @PostMapping
     @RequiresPermissions({"DISPATCHER"})
     public Result createDispatch(@Valid @RequestBody CreateDispatchDto createDispatchDto){
         return dispatchService.createDispatch(createDispatchDto);
     }
 
+    /**
+     * 获取调度详情
+     * */
     @GetMapping("/{id}")
     @RequiresPermissions({"DISPATCHER","DRIVER"})
     public Result getDispatchDetail(@PathVariable("id") Long id, @RequestHeader("Authorization") String token){
         return dispatchService.getDispatchDetail(id,token);
     }
 
+    /**
+     * 签收调度
+     * */
     @PutMapping("/{id}/sign")
     @RequiresPermissions({"CUSTOMER"})
     public Result signDispatch(@PathVariable("id") Long id, @Valid @RequestBody SignDispatchDto signDispatchDto){
         return dispatchService.signDispatch(id, signDispatchDto.getSignName());
     }
 
+    /**
+     * 更新调度状态
+     * */
     @PutMapping("/{id}/status")
     @RequiresPermissions({"DISPATCHER","DRIVER"})
     public Result updateDispatchStatus(@PathVariable("id") Long id, @Valid @RequestBody UpdateDispatchStatusDto dto, @RequestHeader("Authorization") String token){

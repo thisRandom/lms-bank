@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 订单模块
- *
  */
 @RestController
 @RequestMapping("/orders")
@@ -28,7 +27,6 @@ public class OrderController {
 
     /**
      * 获取列表
-     *
      */
     @GetMapping
     @RequiresPermissions({"ADMIN", "CUSTOMER","DISPATCHER"})

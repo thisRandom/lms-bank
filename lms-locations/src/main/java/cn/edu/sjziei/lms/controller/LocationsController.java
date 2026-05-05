@@ -17,6 +17,9 @@ public class LocationsController {
     @Autowired
     LocationsService locationsService;
 
+    /**
+     * 上报位置
+     * */
     @PostMapping
     @RequiresPermissions({"DRIVER"})
     public Result reportLocation(@Valid @RequestBody ReportLocationDto dto, @RequestHeader("Authorization") String token){
