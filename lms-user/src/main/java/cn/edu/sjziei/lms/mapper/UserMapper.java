@@ -67,4 +67,7 @@ public interface UserMapper {
 
     @Update("UPDATE sys_user SET status = #{status},update_time = NOW() where id=#{id}")
     public void edUser(EDUserDto edUserDto);
+
+    @Update("UPDATE sys_user SET headshot = #{url},update_time = NOW() where id=#{id}")
+    public void resetHeadshot(@Param("id") Long id,@Param("url") String url);
 }

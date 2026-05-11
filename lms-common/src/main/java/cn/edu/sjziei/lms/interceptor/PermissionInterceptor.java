@@ -92,7 +92,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
         // 定义白名单路径
         String[] excludePaths = {
                 "/auth/login",// 登录接口
-                "/captcha"
+                "/captcha",
         };
 
         for (String pattern : excludePaths) {

@@ -34,4 +34,6 @@ secret-key:
   jwt: ed28af32-95a8-4d40-8ccb-43f1ad992d1e
   ePassword: 1234567890123456
 
+file:
+  upload-path: C:\Users\quanyiye\Pictures\壁纸
 
