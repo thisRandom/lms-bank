@@ -13,4 +13,5 @@ public class LoginVo {
     String realName; //真实姓名
     String role; //角色
     Long roleId; //角色ID
+    String url;
 }

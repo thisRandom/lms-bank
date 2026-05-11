@@ -15,4 +15,5 @@ public class CurrentVo {
     String role;//角色
     Long roleId; //角色ID
     Integer status; //状态
+    String  url;
 }
