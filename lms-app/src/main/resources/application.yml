@@ -4,8 +4,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/lms?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-    username: remote_user
-    password: 7599973Qyy!
+    username: root
+    password: 123456
   data:
     redis:
       host: localhost
@@ -35,5 +35,5 @@ secret-key:
   ePassword: 1234567890123456
 
 file:
-  upload-path: C:\Users\quanyiye\Pictures\壁纸
+  upload-path:
 
