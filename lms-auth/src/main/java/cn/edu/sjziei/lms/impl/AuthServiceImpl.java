@@ -37,6 +37,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Result login(LoginDto loginDto) {
         //验证码
+        if (loginDto.getCode()==null) {
+            return Result.error(400, "验证码不能为空");
+        }
         String capKey ="CAPTCHA:" +loginDto.getCode().toLowerCase();
         String uuid = (String)redisUtil.get(capKey);
         if (uuid==null||!StrUtil.equals(uuid,loginDto.getUuid())) {

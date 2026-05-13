@@ -35,5 +35,5 @@ secret-key:
   ePassword: 1234567890123456
 
 file:
-  upload-path:
+  upload-path: D:/lms/uploads/
 
